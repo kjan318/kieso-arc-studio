@@ -1,0 +1,10 @@
+.private/
+.env
+__pycache__
+node_modules
+.DS_Store
+*.csv
+*.xlsx
+.ipynb_checkpoints
+.vscode/
+.idea/
