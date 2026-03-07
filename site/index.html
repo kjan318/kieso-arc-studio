@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-style="monochrome">
+<html lang="en" data-theme="dark" data-style="accent">
 
 <head>
     <meta charset="UTF-8">
@@ -28,7 +28,7 @@
 
     <style>
         :root {
-            /* LIGHT MONOCHROME (Default) */
+            /* LIGHT MONOCHROME */
             --bg-base: #f3f4f6;
             --card-bg: rgba(255, 255, 255, 0.75);
             --card-border: rgba(255, 255, 255, 1);
@@ -328,12 +328,12 @@
         <div class="flex gap-4">
             <!-- Theme Controller -->
             <div class="toggle-group interactive">
-                <button onclick="setTheme('light')" id="btn-light" class="toggle-btn active">Light</button>
-                <button onclick="setTheme('dark')" id="btn-dark" class="toggle-btn">Dark</button>
+                <button onclick="setTheme('light')" id="btn-light" class="toggle-btn">Light</button>
+                <button onclick="setTheme('dark')" id="btn-dark" class="toggle-btn active">Dark</button>
             </div>
             <div class="toggle-group interactive">
-                <button onclick="setStyle('monochrome')" id="btn-mono" class="toggle-btn active">Mono</button>
-                <button onclick="setStyle('accent')" id="btn-accent" class="toggle-btn">Accent</button>
+                <button onclick="setStyle('monochrome')" id="btn-mono" class="toggle-btn">Mono</button>
+                <button onclick="setStyle('accent')" id="btn-accent" class="toggle-btn active">Accent</button>
             </div>
         </div>
     </nav>
@@ -416,38 +416,35 @@
                 <div class="inner-line"></div>
                 <div class="flex flex-wrap gap-3">
                     <span class="skill-badge">AI Agents</span>
-                    <span class="skill-badge">Prompt Engineering</span>
-                    <span class="skill-badge">M365 Copilot</span>
-                    <span class="skill-badge">Generative AI</span>
+                    <span class="skill-badge">Claude, Gemini, MS Copilot</span>
+                    <span class="skill-badge">Claude code, Gemini CLI</span>
                 </div>
             </div>
             <div class="glass-card p-10 interactive">
-                <h3 class="font-heading font-bold text-2xl mb-2">Data & Analytics</h3>
+                <h3 class="font-heading font-bold text-2xl mb-2">Data Analytics & Data Science</h3>
                 <div class="inner-line"></div>
                 <div class="flex flex-wrap gap-3">
-                    <span class="skill-badge">Power BI</span>
-                    <span class="skill-badge">DAX</span>
-                    <span class="skill-badge">SQL</span>
-                    <span class="skill-badge">Data Warehousing</span>
+                    <span class="skill-badge">Python, R, SQL</span>
+                    <span class="skill-badge">Power BI, DAX</span>
+                    <span class="skill-badge">Azure Cloude</span>
                 </div>
             </div>
             <div class="glass-card p-10 interactive">
-                <h3 class="font-heading font-bold text-2xl mb-2">Programming</h3>
+                <h3 class="font-heading font-bold text-2xl mb-2">Programming & IDE</h3>
                 <div class="inner-line"></div>
                 <div class="flex flex-wrap gap-3">
-                    <span class="skill-badge">Python</span>
-                    <span class="skill-badge">R</span>
-                    <span class="skill-badge">JavaScript</span>
-                    <span class="skill-badge">VBA</span>
+                    <span class="skill-badge">Python, R, JavaScript, C#</span>
+                    <span class="skill-badge">VS code, Antigravity</span>
+
                 </div>
             </div>
             <div class="glass-card p-10 interactive">
                 <h3 class="font-heading font-bold text-2xl mb-2">Platforms</h3>
                 <div class="inner-line"></div>
                 <div class="flex flex-wrap gap-3">
-                    <span class="skill-badge">SAP FI/CO</span>
+                    <span class="skill-badge">Power Platform</span>
                     <span class="skill-badge">Workday</span>
-                    <span class="skill-badge">UiPath RPA</span>
+                    <span class="skill-badge">Github, Supabase, Netlify</span>
                 </div>
             </div>
         </div>
@@ -547,17 +544,25 @@
         };
         updateInteractions();
 
-        // Theme Controller
+        // Theme Controller with Persistence
         const setTheme = (t) => {
             document.documentElement.setAttribute('data-theme', t);
+            localStorage.setItem('theme', t);
             document.getElementById('btn-light').classList.toggle('active', t === 'light');
             document.getElementById('btn-dark').classList.toggle('active', t === 'dark');
         };
         const setStyle = (s) => {
             document.documentElement.setAttribute('data-style', s);
+            localStorage.setItem('style', s);
             document.getElementById('btn-mono').classList.toggle('active', s === 'monochrome');
             document.getElementById('btn-accent').classList.toggle('active', s === 'accent');
         };
+
+        // Initialize Theme from LocalStorage or Defaults
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedStyle = localStorage.getItem('style') || 'accent';
+        setTheme(savedTheme);
+        setStyle(savedStyle);
 
         // Paper.js Background
         window.onload = () => {
