@@ -134,6 +134,46 @@
             background-color: var(--brand-accent);
             border-radius: 0 4px 4px 0;
         }
+
+        .highlight-match {
+            background-color: rgba(110, 231, 183, 0.3);
+            border-radius: 2px;
+            padding: 0 2px;
+        }
+
+        .view-list .kpi-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .view-list .kpi-card {
+            flex-direction: row;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            height: auto;
+        }
+
+        .view-list .kpi-card > div:first-child {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .view-list .kpi-card .purpose-text {
+            display: none;
+        }
+
+        .view-list .kpi-card .details-section {
+            display: none;
+        }
+
+        .view-list .kpi-card .status-tag {
+            position: static;
+            border: none;
+            padding: 0;
+            background: transparent;
+            margin-left: 1rem;
+        }
     </style>
 </head>
 
@@ -178,13 +218,24 @@
                 </div>
             </div>
 
-            <div class="hidden md:flex relative w-[320px]">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg class="h-4 w-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
+            <div class="flex items-center gap-4 flex-grow max-w-2xl px-8">
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-4 w-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="kpiSearch" class="block w-full pl-10 pr-4 py-2.5 border border-brand-border rounded-full bg-brand-card text-sm placeholder-brand-muted focus:outline-none focus:border-brand-accent transition-all" placeholder="Search KPI framework...">
                 </div>
-                <input type="text" id="kpiSearch" class="block w-full pl-10 pr-4 py-2.5 border border-brand-border rounded-full bg-brand-card text-sm placeholder-brand-muted focus:outline-none focus:border-brand-accent transition-all" placeholder="Search KPI framework...">
+                
+                <div class="flex items-center bg-brand-cardLight border border-brand-border p-1 rounded-xl">
+                    <button id="viewGrid" class="p-2 rounded-lg bg-brand-card shadow-sm text-brand-accent transition-all" title="Grid View">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    </button>
+                    <button id="viewList" class="p-2 rounded-lg text-brand-muted hover:text-brand-text transition-all" title="List View">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
             </div>
 
             <div class="flex items-center gap-4">
@@ -225,49 +276,89 @@
     <script>
         const kpiData = [
             { id: 'talent-acquisition', title: 'Talent Acquisition Excellence', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', theme: 1, kpis: [
-                { name: 'Qualified Applicant Rate', purpose: 'Measures efficiency of the recruitment funnel top. Low rates indicate sourcing misalignment.', formula: '(Qualified Applicants / Total Applicants) * 100', prereqs: 'ATS: Applicant_ID, Qualification_Status' },
-                { name: 'Source of Hire Effectiveness', purpose: 'Determines channel ROI to optimize budget. Where should we invest?', formula: '(Hires from Source / Total Hires) * 100', prereqs: 'ATS: Hire_ID, Application_Source_Channel' },
-                { name: 'Cost per Hire', purpose: 'Total financial investment per new hire. Critical for budget efficiency.', formula: '(Internal + External Costs) / Total Hires', prereqs: 'Finance Data + HRIS Headcount' },
-                { name: 'Quality of Hire', purpose: 'Ultimate recruitment success metric connecting decisions to business outcomes.', formula: '(Avg Perf / 5) * (1 - Turnover) * Mgr Sat', prereqs: 'Performance Rating + Turnover + Mgr Survey' }
+                { name: 'Qualified Applicant Rate', type: 'Strategic', isLive: true, purpose: 'Measures top-of-funnel efficiency. Low rates indicate sourcing misalignment; high rates suggest effective targeting.', formula: '(Qualified Applicants / Total Applicants) * 100', prereqs: 'ATS: Applicant_ID, Qualification_Status' },
+                { name: 'Source of Hire Effectiveness', type: 'Operational', isLive: true, purpose: 'Determines channel ROI to optimize budget. Answers: "Where should we invest to get the best talent?"', formula: '(Hires from Source / Total Hires) * 100', prereqs: 'ATS: Hire_ID, Application_Source_Channel' },
+                { name: 'Talent Pool Growth Rate', type: 'Operational', isLive: true, purpose: 'Measures employer branding and passive engagement. Healthy growth reduces future hiring costs.', formula: '((Pool End - Pool Start) / Pool Start) * 100', prereqs: 'CRM: Talent_Pool_ID, Date_Range_Start/End' },
+                { name: 'Pool-to-Hire Rate', type: 'Operational', isLive: true, purpose: 'Measures ROI of passive talent networks. High rates prove pooling reduces Time to Fill and Cost per Hire.', formula: '(Hires from Talent Pool / Total Hires) * 100', prereqs: 'ATS/CRM: Hire_ID, Hire_Source' },
+                { name: 'Cost per Hire', type: 'Financial', isLive: true, purpose: 'Total financial investment per new hire. Critical for managing the recruitment budget.', formula: '(Internal + External Costs) / Total Hires', prereqs: 'Finance data + HRIS headcount' },
+                { name: 'Time to Fill', type: 'Operational', isLive: true, purpose: 'Measures recruitment speed. Long cycles risk lost productivity and losing candidates to competitors.', formula: 'Avg(Offer_Accept_Date - Req_Approval_Date)', prereqs: 'ATS: Requisition_ID, Approval/Acceptance Timestamps' },
+                { name: 'Offer Acceptance Rate', type: 'Experience', isLive: true, purpose: 'Measures competitiveness. Low rates signal issues with compensation, culture, or process speed.', formula: '(Offers Accepted / Offers Extended) * 100', prereqs: 'ATS: Offer_ID, Offer_Status' },
+                { name: 'Candidate Experience Score (CXS)', type: 'Experience', isLive: true, purpose: 'Measures perception of the process. Positive experiences boost employer brand, even for rejected talent.', formula: 'Average score from candidate surveys', prereqs: 'Survey Data: Candidate_ID, Survey_ID, Question Scores' },
+                { name: 'Recruitment Funnel Conversion Rate', type: 'Operational', isLive: true, purpose: 'Diagnoses bottlenecks by tracking stage-to-stage candidate progression.', formula: '(Candidates in Stage N+1 / Stage N) * 100', prereqs: 'ATS: Application_ID, Recruitment_Stage' },
+                { name: 'Quality of Hire', type: 'Strategic', isLive: true, purpose: 'The ultimate success metric connecting hiring decisions to long-term business value.', formula: '(Avg Perf / 5) * (1 - Turnover) * Mgr Sat', prereqs: 'HRIS (Dates), Perf Management (Rating), Mgr Survey' },
+                { name: 'Hiring Manager Satisfaction', type: 'Experience', isLive: true, purpose: 'Measures the internal "customer" experience. High scores indicate TA understands business needs.', formula: 'Average score from post-hire manager survey', prereqs: 'Survey: Hiring_Manager_ID, Requisition_ID, Score' },
+                { name: 'New Hire Turnover Rate (90-Day)', type: 'Strategic', isLive: true, purpose: 'Diagnoses hiring/onboarding issues. High early turnover is a costly red flag for job fit.', formula: '(Leavers < 90 Days / Total Hires) * 100', prereqs: 'HRIS: Employee_ID, Hire_Date, Termination_Date' },
+                { name: 'Time to Productivity', type: 'Operational', isLive: true, purpose: 'Measures onboarding effectiveness. Shorter times mean faster return on hiring investment.', formula: 'Avg(Full_Productivity_Date - Hire_Date)', prereqs: 'HRIS (Hire_Date) + Defined Productivity Milestone' }
             ]},
-            { id: 'performance-mobility', title: 'Performance & Mobility', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', theme: 2, kpis: [
-                { name: 'Goal Completion Rate', purpose: 'Alignment and execution against company objectives. Signals process health.', formula: '(Completed Goals / Total Goals) * 100', prereqs: 'Perf System: Goal_Status' },
-                { name: 'Internal Mobility Rate', purpose: 'Effectiveness of internal talent development. Boosts retention.', formula: '(Internal Fills / Total Fills) * 100', prereqs: 'HRIS: Hire_Type' }
+            { id: 'performance-mobility', title: 'Performance & Internal Mobility', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', theme: 2, kpis: [
+                { name: 'Goal Completion Rate', type: 'Strategic', isPlanned: true, purpose: 'Measures alignment and execution against objectives. Signals process health or resource issues.', formula: '(Employees with Completed Goals / Total Employees in Cycle) * 100', prereqs: 'Performance System: Goal_Status' },
+                { name: 'Internal Mobility Rate', type: 'Operational', isPlanned: true, purpose: 'Effectiveness of internal talent development. High rates boost retention and career pathing.', formula: '(Positions Filled Internally / Total Positions Filled) * 100', prereqs: 'HRIS: Hire_Type, New_Job_ID' },
+                { name: 'Apprentice Conversion Rate', type: 'Operational', isPlanned: true, purpose: 'Measures ROI of apprenticeship programs as a talent pipeline.', formula: '(Apprentices Hired / Apprentices Graduated) * 100', prereqs: 'Program Tracking: Completion_Date' }
             ]},
             { id: 'retention-engagement', title: 'Retention & Engagement', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', theme: 3, kpis: [
-                { name: 'High-Performer Turnover', purpose: 'Attrition of critical segments. Disproportionate impact on business.', formula: '(Leaving Top Performers / Total Top Performers) * 100', prereqs: 'Perf Rating + Term Type' },
-                { name: 'Employee Net Promoter Score', purpose: 'Loyalty and advocacy measure. Simple indicator of overall culture.', formula: '% Promoters - % Detractors', prereqs: 'Engagement Survey: 0-10 Score' }
+                { name: 'High-Performer Turnover Rate', type: 'Strategic', isPlanned: true, purpose: 'Attrition of critical employee segments. Disproportionate impact on business performance.', formula: '(Voluntary Leaving Top Performers / Total Top Performers) * 100', prereqs: 'Perf Rating + Term Type' },
+                { name: 'High-Potential Employee Turnover', type: 'Strategic', isPlanned: true, purpose: 'Attrition of the future leadership pipeline. Jeopardizes succession plans.', formula: '(HiPo Employees Who Left / Total HiPo Employees) * 100', prereqs: 'Talent System Flag + Term Data' },
+                { name: 'Employee Net Promoter Score (eNPS)', type: 'Experience', isPlanned: true, purpose: 'Loyalty and willingness to advocate. Simple indicator of overall culture.', formula: '% of Promoters - % of Detractors', prereqs: 'Engagement Survey: 0-10 Score' },
+                { name: 'Survey Participation Rate', type: 'Operational', isPlanned: true, purpose: 'Measures trust in feedback mechanisms. Low rates signal survey fatigue or apathy.', formula: '(Survey Responses / Total Employees Invited) * 100', prereqs: 'Survey Platform: Response_Status' }
             ]},
             { id: 'leadership-succession', title: 'Leadership & Succession', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.272-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.272.356-1.857', theme: 4, kpis: [
-                { name: 'Executive Bench Strength', purpose: 'Readiness for critical roles. Low scores signal strategic risk.', formula: '(Positions with Ready Successors / Total Positions) * 100', prereqs: 'Succession Planning: Readiness_Level' },
-                { name: 'Span of Control', purpose: 'Direct reports per manager. Identifies redesign opportunities.', formula: 'Total Employees / Total Managers', prereqs: 'HRIS: Reporting Lines' }
+                { name: 'Manager Effectiveness Score', type: 'Experience', isPlanned: true, purpose: 'Holistic view of impact combining team feedback with team outcomes.', formula: 'Weighted average of survey scores and team metrics.', prereqs: 'Upward Feedback + Team Metrics' },
+                { name: 'Executive Bench Strength', type: 'Strategic', isPlanned: true, purpose: 'Readiness for critical executive roles. Low scores represent significant strategic risk.', formula: '(Exec Positions with Ready Successors / Total Exec Positions) * 100', prereqs: 'Succession Data: Readiness_Level' },
+                { name: 'Span of Control', type: 'Operational', isPlanned: true, purpose: 'Direct reports per manager. Identifies organizational redesign opportunities.', formula: 'Total Employees / Total Managers', prereqs: 'HRIS: Reporting Lines' },
+                { name: 'Diversity in Leadership', type: 'Strategic', isPlanned: true, purpose: 'Representation of underrepresented groups. Indicator of inclusive culture.', formula: '(Leaders from Underrepresented Group / Total Leaders) * 100', prereqs: 'HRIS: Demographic + Leadership Level' }
             ]},
             { id: 'skills-capability', title: 'Skills & Capability', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l.707.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', theme: 5, kpis: [
-                { name: 'Skill Gap Percentage', purpose: 'Identifies critical gaps to direct L&D investments effectively.', formula: '(Roles with Gaps / Total Critical Roles) * 100', prereqs: 'Skills Assessment Platform' }
+                { name: 'Skill Gap Percentage', type: 'Strategic', isPlanned: true, purpose: 'Identifies critical capability gaps to direct L&D investments effectively.', formula: '(Roles with Critical Skill Gaps / Total Critical Roles) * 100', prereqs: 'Skills Assessment Platform' },
+                { name: 'Training Completion Rate', type: 'Operational', isPlanned: true, purpose: 'Adherence to assigned learning. Foundation for compliance and engagement.', formula: '(Employees Who Completed / Employees Assigned) * 100', prereqs: 'LMS: Completion_Status' },
+                { name: 'Training Effectiveness Score', type: 'Experience', isPlanned: true, purpose: 'Impact of training on skills. Ensures L&D delivers tangible business value.', formula: 'Avg score from post-training surveys.', prereqs: 'Pre/Post Assessment Scores' },
+                { name: 'Reskilling/Upskilling Rate', type: 'Operational', isPlanned: true, purpose: 'Proactive effort to prepare for future roles. Commitment to sustainability.', formula: '(Employees in Reskilling Programs / Total Employees) * 100', prereqs: 'LMS/HRIS: Enrollment Tracking' }
             ]},
             { id: 'compensation-equity', title: 'Compensation & Pay Equity', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', theme: 6, kpis: [
-                { name: 'Pay Equity Gap', purpose: 'Diagnoses disparities. Critical for fair culture and risk mitigation.', formula: '((Avg Pay A - Avg Pay B) / Avg Pay A) * 100', prereqs: 'HRIS: Salary + Demographic' }
+                { name: 'Compensation Competitiveness Ratio', type: 'Financial', isPlanned: true, purpose: 'Comparison to external market. Ratios < 1.0 risk losing talent.', formula: 'Company_Average_Salary / Market_Average_Salary', prereqs: 'HRIS Salary + Market Benchmarks' },
+                { name: 'Compa-Ratio', type: 'Financial', isPlanned: true, purpose: 'Position within designated pay range. Core metric for internal fairness.', formula: 'Employee_Salary / Salary_Range_Midpoint', prereqs: 'HRIS: Salary + Range Data' },
+                { name: 'Pay Equity Gap', type: 'Strategic', isPlanned: true, purpose: 'Disparities between demographic groups. Critical for risk mitigation.', formula: '((Avg Pay A - Avg Pay B) / Avg Pay A) * 100', prereqs: 'HRIS: Salary + Demographic + Level' },
+                { name: 'Benefits Participation Rate', type: 'Operational', isPlanned: true, purpose: 'Engagement with voluntary benefits. Signals need for better communication.', formula: '(Employees Enrolled / Total Eligible Employees) * 100', prereqs: 'Benefits Admin System' }
             ]},
             { id: 'workforce-planning', title: 'Strategic Workforce Planning', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', theme: 7, kpis: [
-                { name: 'Revenue per Employee', purpose: 'Financial productivity measure. High-level efficiency view.', formula: 'Revenue / Total FTE', prereqs: 'Finance Data + HRIS Headcount' }
+                { name: 'Vacancy Rate', type: 'Operational', isPlanned: true, purpose: 'Percentage of unfilled positions. High rates strain existing staff.', formula: '(Open Positions / Total Positions) * 100', prereqs: 'Position Management System' },
+                { name: 'Revenue per Employee', type: 'Financial', isPlanned: true, purpose: 'Financial productivity. High-level view of organizational efficiency.', formula: 'Total Revenue / Total FTE', prereqs: 'Finance Data + HRIS Headcount' },
+                { name: 'Forecast Accuracy', type: 'Operational', isPlanned: true, purpose: 'Reliability of planning models. Enables better budgeting and allocation.', formula: '(1 - (Abs(Actual - Forecast) / Actual)) * 100', prereqs: 'Workforce Planning System Data' }
             ]},
             { id: 'deib', title: 'DEI & Well-being', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', theme: 8, kpis: [
-                { name: 'Inclusion Index', purpose: 'Belonging measure. Direct driver of innovation and retention.', formula: 'Avg agreement score on belonging questions', prereqs: 'Engagement Survey: Inclusion Module' }
+                { name: 'Employee Well-being Index', type: 'Experience', isPlanned: true, purpose: 'Leading indicator of burnout, stress, and disengagement.', formula: 'Weighted average of survey scores.', prereqs: 'Well-being Surveys + EAP usage' },
+                { name: 'Inclusion Index', type: 'Experience', isPlanned: true, purpose: 'Degree of belonging and voice. Direct driver of retention and innovation.', formula: 'Avg agreement score on belonging questions.', prereqs: 'Survey: Inclusion-focused module' }
             ]},
             { id: 'hr-operations', title: 'HR Ops & Service Delivery', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', theme: 9, kpis: [
-                { name: 'HR Process Automation', purpose: 'Operational maturity. Reduces error and increases scalability.', formula: '(Auto Processes / Total Processes) * 100', prereqs: 'Process Inventory Audit' }
+                { name: 'HR Process Automation Rate', type: 'Operational', isPlanned: true, purpose: 'Operational maturity. Reduces manual error and increases scalability.', formula: '(Automated Processes / Total Processes) * 100', prereqs: 'Process Inventory Audit' },
+                { name: 'HR Ticket Resolution Time', type: 'Operational', isPlanned: true, purpose: 'Efficiency and responsiveness. Long times damage employee perception.', formula: 'Avg(Resolution_Date - Creation_Date)', prereqs: 'HR Ticketing System Data' },
+                { name: 'HRIS Self-Service Adoption', type: 'Experience', isPlanned: true, purpose: 'Effectiveness of self-service. Reduces HR administrative burden.', formula: '(Active Self-Service Users / Total Employees) * 100', prereqs: 'HRIS: Login/Activity Logs' }
             ]},
             { id: 'future-of-work', title: 'Future of Work & Risk', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', theme: 10, kpis: [
-                { name: 'Remote Work Effectiveness', purpose: 'Assesses sustainability by comparing perf across locations.', formula: 'Perf/Engagement by Location', prereqs: 'HRIS Location + Survey Data' }
+                { name: 'Remote/Hybrid Effectiveness', type: 'Strategic', isPlanned: true, purpose: 'Assesses sustainability by comparing perf/engagement by location.', formula: 'Perf/Engagement segmented by Location.', prereqs: 'HRIS + Performance + Survey Data' },
+                { name: 'Mandatory Training Compliance Rate', type: 'Operational', isPlanned: true, purpose: 'Adherence to legal/safety training. Rates < 100% signal high risk.', formula: '(Completed / Total Employees) * 100', prereqs: 'LMS: Training Tracking' },
+                { name: 'Data Accuracy Rate', type: 'Operational', isPlanned: true, purpose: 'Reliability of core HRIS data. Foundation for all other analytics.', formula: '(Accurate Records / Total Audited) * 100', prereqs: 'Formal HRIS Audit Results' }
             ]}
         ];
 
         const sidebarNav = document.getElementById('sidebarNav');
         const sectionsContainer = document.getElementById('sectionsContainer');
+        const viewGridBtn = document.getElementById('viewGrid');
+        const viewListBtn = document.getElementById('viewList');
+        const searchInput = document.getElementById('kpiSearch');
 
-        function renderFramework() {
+        function renderFramework(term = '') {
+            sidebarNav.innerHTML = '';
+            sectionsContainer.innerHTML = '';
+
             kpiData.forEach(theme => {
-                // Sidebar Icons
+                const visibleKpis = theme.kpis.filter(kpi => 
+                    kpi.name.toLowerCase().includes(term.toLowerCase()) || 
+                    kpi.purpose.toLowerCase().includes(term.toLowerCase())
+                );
+
+                if (term !== '' && visibleKpis.length === 0) return;
+
+                // Sidebar Icons with KPI count
                 const navItem = document.createElement('div');
                 navItem.className = `w-12 h-12 flex items-center justify-center cursor-pointer text-brand-muted hover:text-brand-text transition-all rounded-xl relative group theme-nav-item`;
                 navItem.setAttribute('data-id', theme.id);
@@ -275,6 +366,9 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="${theme.icon}" />
                     </svg>
+                    <div class="absolute -top-1 -right-1 bg-brand-border text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center tabular-nums border border-brand-card">
+                        ${theme.kpis.length}
+                    </div>
                     <div class="absolute left-16 bg-brand-card border border-brand-border px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none text-xs font-bold shadow-xl">
                         ${theme.title}
                     </div>
@@ -287,17 +381,34 @@
                 section.id = theme.id;
                 section.className = 'scroll-mt-24';
 
-                const kpisHtml = theme.kpis.map(kpi => `
-                    <div class="glass-panel p-6 flex flex-col justify-between kpi-card">
+                const kpisHtml = theme.kpis.map(kpi => {
+                    const isVisible = visibleKpis.includes(kpi);
+                    const highlight = (text) => term ? text.replace(new RegExp(term, 'gi'), match => `<span class="highlight-match">${match}</span>`) : text;
+
+                    return `
+                    <div class="glass-panel p-6 flex flex-col justify-between kpi-card relative overflow-hidden group/card ${isVisible ? '' : 'hidden'}">
+                        ${kpi.isLive ? `
+                            <div class="status-tag absolute top-0 right-0 bg-brand-accent/10 border-l border-b border-brand-accent/20 px-3 py-1 rounded-bl-xl z-10">
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-accent">Live on TA Dashboard</span>
+                            </div>
+                        ` : ''}
+                        ${kpi.isPlanned ? `
+                            <div class="status-tag absolute top-0 right-0 bg-brand-cyan/10 border-l border-b border-brand-cyan/20 px-3 py-1 rounded-bl-xl z-10">
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-cyan">Planned for Suite</span>
+                            </div>
+                        ` : ''}
                         <div>
-                            <div class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-muted mb-4">Strategic KPI</div>
-                            <h3 class="text-xl font-bold mb-3">${kpi.name}</h3>
-                            <p class="text-xs text-brand-muted leading-relaxed mb-6 font-medium">${kpi.purpose}</p>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-muted">Strategic KPI</div>
+                                <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase bg-brand-cardLight border border-brand-border text-brand-muted">${kpi.type}</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover/card:text-brand-accent transition-colors">${highlight(kpi.name)}</h3>
+                            <p class="purpose-text text-xs text-brand-muted leading-relaxed mb-6 font-medium">${highlight(kpi.purpose)}</p>
                         </div>
-                        <div class="space-y-4 pt-4 border-t border-brand-border">
+                        <div class="details-section space-y-4 pt-4 border-t border-brand-border">
                             <div>
                                 <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted block mb-2">Logic Model</span>
-                                <div class="bg-brand-bg/50 px-3 py-2 rounded-lg text-[11px] font-mono border border-brand-border/50 text-brand-cyan">${kpi.formula}</div>
+                                <div class="bg-brand-bg/50 px-3 py-2 rounded-lg text-[11px] font-mono border border-brand-border/50 text-brand-cyan">${highlight(kpi.formula)}</div>
                             </div>
                             <div>
                                 <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted block mb-2">Data Integrity Requirements</span>
@@ -305,7 +416,7 @@
                             </div>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
 
                 section.innerHTML = `
                     <div class="flex items-center gap-4 mb-8">
@@ -316,7 +427,7 @@
                         </div>
                         <h2 class="text-2xl font-black">${theme.title}</h2>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="kpi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         ${kpisHtml}
                     </div>
                 `;
@@ -324,6 +435,22 @@
             });
         }
 
+        // View Toggle Logic
+        viewGridBtn.addEventListener('click', () => {
+            document.getElementById('frameworkContent').classList.remove('view-list');
+            viewGridBtn.classList.add('bg-brand-card', 'text-brand-accent');
+            viewListBtn.classList.remove('bg-brand-card', 'text-brand-accent');
+            viewListBtn.classList.add('text-brand-muted');
+        });
+
+        viewListBtn.addEventListener('click', () => {
+            document.getElementById('frameworkContent').classList.add('view-list');
+            viewListBtn.classList.add('bg-brand-card', 'text-brand-accent');
+            viewGridBtn.classList.remove('bg-brand-card', 'text-brand-accent');
+            viewGridBtn.classList.add('text-brand-muted');
+        });
+
+        // Initial Render
         renderFramework();
 
         // Theme Toggle logic
@@ -337,39 +464,26 @@
             localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
         });
 
-        // Scrollspy for Sidebar
-        const mainContent = document.getElementById('frameworkContent');
-        const sectionElems = document.querySelectorAll('.scroll-mt-24');
-        const navItems = document.querySelectorAll('.theme-nav-item');
+        // Search logic
+        searchInput.addEventListener('input', (e) => {
+            renderFramework(e.target.value);
+        });
 
-        mainContent.addEventListener('scroll', () => {
+        // Scrollspy for Sidebar
+        const mainContentArea = document.getElementById('frameworkContent');
+        mainContentArea.addEventListener('scroll', () => {
             let current = '';
-            sectionElems.forEach(section => {
-                if (mainContent.scrollTop >= (section.offsetTop - 120)) {
+            document.querySelectorAll('.scroll-mt-24').forEach(section => {
+                if (mainContentArea.scrollTop >= (section.offsetTop - 120)) {
                     current = section.getAttribute('id');
                 }
             });
 
-            navItems.forEach(item => {
+            document.querySelectorAll('.theme-nav-item').forEach(item => {
                 item.classList.remove('nav-active');
                 if (item.getAttribute('data-id') === current) {
                     item.classList.add('nav-active');
                 }
-            });
-        });
-
-        // Search logic
-        const searchInput = document.getElementById('kpiSearch');
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            document.querySelectorAll('.kpi-card').forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(term) ? 'flex' : 'none';
-            });
-            // Hide themes if empty
-            document.querySelectorAll('.scroll-mt-24').forEach(section => {
-                const visibleCards = section.querySelectorAll('.kpi-card[style="display: flex;"]').length;
-                section.style.display = (visibleCards > 0 || term === '') ? 'block' : 'none';
             });
         });
     </script>
