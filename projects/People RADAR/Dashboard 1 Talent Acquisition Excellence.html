@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 1: Talent Acquisition Excellence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px_6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Talent Acquisition Excellence</h1>
+            <p class="text-slate-600 mt-1">This dashboard provides a comprehensive overview of our ability to attract, hire, and onboard top talent, highlighting key bottlenecks and opportunities.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Job Level</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Director+</option><option>Manager</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Diversity</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Gender</option><option>Ethnicity</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we winning the war for talent in our most critical roles?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Which sourcing channels provide the best long-term value?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our candidate experience a competitive advantage or a liability?</li>
+                     <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> How quickly and effectively are we onboarding new hires?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Time to Fill (Days) <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the efficiency of the recruiting process from requisition approval to offer acceptance. Long cycles can lead to losing top candidates.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Avg(Offer_Accept_Date - Req_Approval_Date)</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Applicant Tracking System (ATS) Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">48</p>
+                <p class="text-warning mt-1">Above industry benchmark of 42</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Cost Per Hire <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Calculates the total investment made to hire a new employee. It is essential for budgeting and measuring recruiting ROI.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Total Recruiting Costs / Total Hires)</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">ATS, HRIS, and Finance Department Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">$5,210</p>
+                <p class="text-success mt-1">Below budget of $5,500</p>
+            </div>
+
+            <!-- Recruitment Funnel -->
+            <div class="col-span-12 lg:col-span-8 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Recruitment Funnel Conversion <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Visualizes the flow of candidates through each stage of the hiring process, highlighting potential bottlenecks where candidates drop off.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Candidates in Stage N+1 / in Stage N) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Applicant Tracking System (ATS) Data</code></div></span>
+                </h3>
+                 <div class="relative h-96 w-full"><canvas id="funnelChart"></canvas></div>
+            </div>
+            
+             <!-- Funnel KPIs -->
+            <div class="col-span-12 lg:col-span-4 grid grid-cols-1 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Qualified Applicant Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures the effectiveness of job postings and sourcing channels at attracting suitable candidates. A low rate may indicate poorly targeted ads.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Qualified / Total Applicants) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Applicant Tracking System (ATS) Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-success mt-2">35%</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Offer Acceptance Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Indicates the competitiveness of job offers. A low rate can signal issues with compensation, benefits, or brand perception.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Offers Accepted / Offers Extended) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Applicant Tracking System (ATS) Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-danger mt-2">78%</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Candidate Experience (CXS) <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures a candidate's overall perception of the recruitment process. A positive experience enhances employer brand, even for rejected candidates.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Avg. score from candidate experience surveys</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Candidate Survey Platform Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-warning mt-2">4.1 <span class="text-2xl text-slate-400">/ 5</span></p>
+                </div>
+            </div>
+
+            <!-- Source of Hire -->
+            <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                 <h3 class="text-xl font-bold text-slate-900">Source of Hire Effectiveness <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Identifies which sourcing channels produce the most hires. This is crucial for optimizing recruitment marketing spend and effort.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Hires from Source / Total Hires) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">ATS and/or HRIS Data</code></div></span>
+                </h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Comparing volume vs. 1-year performance of new hires by source.</p>
+                 <div class="relative h-80 w-full"><canvas id="sourceChart"></canvas></div>
+            </div>
+
+            <!-- Onboarding & Quality -->
+            <div class="col-span-12 lg:col-span-5 grid grid-cols-1 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Quality of Hire <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">The ultimate measure of recruiting success, assessing a new hire's contribution to the company. It links hiring decisions to business outcomes.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Avg Perf. + Retention + Mgr. Sat.) / 3</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS, Performance & Manager Survey Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-success mt-2">89%</p>
+                    <p class="text-slate-500 mt-1">Avg. 1-Year Performance</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">90-Day Turnover Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures early attrition of new hires. High rates often indicate a mismatch in job expectations or a poor onboarding experience.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Leavers < 90 days / Total Hires) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Data (Hire & Termination Dates)</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-danger mt-2">12%</p>
+                    <p class="text-slate-500 mt-1">For Engineering roles</p>
+                </div>
+            </div>
+
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Redesign Engineering Onboarding:</strong> Launch a task force to investigate the high 90-day turnover in Engineering and revamp the onboarding process to improve role clarity and integration.</div>
+                    <div><strong class="text-slate-900">Analyze Offer Rejections:</strong> Conduct a deep dive on the 22% of rejected offers to identify trends in compensation, role scope, or competitor offers.</div>
+                     <div><strong class="text-slate-900">Invest in Employee Referrals:</strong> Given that referrals produce the highest quality hires, launch a promotional campaign to double the number of referred candidates next quarter.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Funnel Chart
+        new Chart(document.getElementById('funnelChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Applicants', 'Qualified', 'Screened', 'Interviewed', 'Offered', 'Hired'],
+                datasets: [{
+                    label: 'Candidate Count',
+                    data: [8200, 2870, 1500, 450, 110, 86],
+                    backgroundColor: [
+                        '#0ea5e9', '#0ea5e9', '#0ea5e9',
+                        '#f59e0b', '#dc2626', '#16a34a'
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                 ...chartJSConfig,
+                 indexAxis: 'y',
+                 plugins: { legend: { display: false } },
+                 scales: {
+                    y: { ticks: { color: '#475569'}, grid: { display: false } },
+                    x: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } }
+                 }
+            }
+        });
+
+        // Source Chart
+        new Chart(document.getElementById('sourceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Referrals', 'Careers Page', 'LinkedIn', 'Job Boards', 'Agencies'],
+                datasets: [{
+                    label: 'Number of Hires',
+                    data: [28, 25, 18, 10, 5],
+                    backgroundColor: '#64748b',
+                    yAxisID: 'y',
+                    borderRadius: 4
+                }, {
+                    label: 'Avg. 1-Year Performance (Score)',
+                    data: [92, 88, 85, 82, 89],
+                    backgroundColor: '#0ea5e9',
+                    yAxisID: 'y1',
+                    type: 'line',
+                    borderColor: '#0ea5e9',
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                ...chartJSConfig,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { text: 'Number of Hires', display: true, color: '#475569' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { text: 'Avg. Performance', display: true, color: '#475569' }
+                    },
+                    x: { ticks: { color: '#64748b' }, grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

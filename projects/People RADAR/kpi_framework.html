@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People RADAR • KPI Strategic Framework</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plus Jakarta Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Setup Tailwind Theme -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: 'var(--brand-bg)',
+                            card: 'var(--brand-card)',
+                            cardLight: 'var(--brand-card-light)',
+                            border: 'var(--brand-border)',
+                            text: 'var(--brand-text)',
+                            muted: 'var(--brand-muted)',
+                            accent: 'var(--brand-accent)',
+                            accentSoft: 'var(--brand-accent-soft)',
+                            accentDark: 'var(--brand-accent-dark)',
+                            cyan: 'var(--brand-cyan)',
+                            cyanSoft: 'var(--brand-cyan-soft)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --brand-bg: #f8f9fa;
+            --brand-card: #ffffff;
+            --brand-card-light: #f1f3f5;
+            --brand-border: #dee2e6;
+            --brand-text: #1a1c1e;
+            --brand-muted: #64748b;
+            --brand-accent: #10b981;
+            --brand-accent-soft: #ecfdf5;
+            --brand-accent-dark: #064e3b;
+            --brand-cyan: #06b6d4;
+            --brand-cyan-soft: #ecfeff;
+            color-scheme: light;
+        }
+
+        .dark {
+            --brand-bg: #14171a;
+            --brand-card: #1c2126;
+            --brand-card-light: #262c33;
+            --brand-border: #333b45;
+            --brand-text: #f1f3f5;
+            --brand-muted: #919ba7;
+            --brand-accent: #6ee7b7;
+            --brand-accent-soft: #d1fae5;
+            --brand-accent-dark: #064e3b;
+            --brand-cyan: #22d3ee;
+            --brand-cyan-soft: #cffafe;
+            color-scheme: dark;
+        }
+
+        body {
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
+            font-family: "Plus Jakarta Sans", sans-serif;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .glass-panel {
+            background-color: var(--brand-card);
+            border: 1px solid var(--brand-border);
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark .glass-panel {
+            box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.4);
+        }
+
+        .kpi-card {
+            transition: all 0.2s ease;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--brand-accent);
+            background-color: var(--brand-card-light);
+            transform: translateY(-2px);
+        }
+
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--brand-border);
+            border-radius: 10px;
+        }
+
+        .nav-active {
+            background-color: var(--brand-border);
+            color: var(--brand-text);
+        }
+
+        .nav-active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 25%;
+            height: 50%;
+            width: 4px;
+            background-color: var(--brand-accent);
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+
+<body class="flex h-screen w-screen p-3 gap-3 dark">
+
+    <!-- Sidebar -->
+    <aside
+        class="w-[80px] rounded-[1.5rem] bg-brand-card border border-brand-border flex flex-col items-center py-6 flex-shrink-0">
+        <a href="KPI_index_glossy.html"
+            class="w-10 h-10 rounded-full bg-brand-accentSoft flex items-center justify-center mb-8 cursor-pointer hover:scale-110 transition-transform">
+            <svg class="w-5 h-5 text-brand-accentDark" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.06 19.43 4 16.05 4 12C4 7.95 7.06 4.57 11 4.07V19.93ZM13 4.07C16.94 4.57 20 7.95 20 12C20 16.05 16.94 19.43 13 19.93V4.07Z" />
+            </svg>
+        </a>
+
+        <nav id="sidebarNav" class="flex flex-col gap-4 items-center flex-grow w-full overflow-y-auto px-2 pb-4">
+            <!-- Dynamically generated icons -->
+        </nav>
+
+        <div class="flex flex-col gap-4 items-center mt-auto border-t border-brand-border pt-4">
+             <a href="KPI_index_glossy.html" title="Back to Dashboard" class="w-10 h-10 flex items-center justify-center text-brand-muted hover:text-brand-text transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex flex-col h-full rounded-[1.5rem] bg-brand-card p-6 lg:p-8 overflow-hidden">
+
+        <!-- Top Nav -->
+        <header class="flex justify-between items-center mb-8 w-full flex-wrap gap-4">
+            <div class="flex flex-col">
+                <span class="text-brand-muted text-xs font-extrabold tracking-widest uppercase">Sunday, 08 Mar 2026</span>
+                <div class="flex items-center gap-2 mt-1">
+                    <svg class="w-4 h-4 text-brand-accent" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+                    </svg>
+                    <span class="text-sm font-bold tabular-nums">18°C • London</span>
+                </div>
+            </div>
+
+            <div class="hidden md:flex relative w-[320px]">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="h-4 w-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input type="text" id="kpiSearch" class="block w-full pl-10 pr-4 py-2.5 border border-brand-border rounded-full bg-brand-card text-sm placeholder-brand-muted focus:outline-none focus:border-brand-accent transition-all" placeholder="Search KPI framework...">
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="themeToggle" class="w-10 h-10 rounded-full bg-brand-card border border-brand-border flex items-center justify-center hover:bg-brand-cardLight transition-all">
+                    <svg class="w-4 h-4 text-brand-text hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.364 17.636l-.707.707M6.364 6.364l.707.707m10.607 10.607l.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg class="w-4 h-4 text-brand-text block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <div class="flex items-center gap-3 pl-2 border-l border-brand-border">
+                    <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-border">
+                    <div class="hidden lg:flex flex-col">
+                        <span class="text-sm font-bold">Noah Brooks</span>
+                        <span class="text-[10px] text-brand-muted font-bold uppercase tracking-wider">HR Lead</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-grow overflow-y-auto pr-2" id="frameworkContent">
+            <!-- Title Area -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-black tracking-tight mb-4">KPI Strategic Framework</h1>
+                <p class="text-brand-muted max-w-3xl font-medium leading-relaxed">
+                    An interactive executive guide to the key metrics enabling data-driven HR excellence. 
+                    Each KPI is meticulously detailed with its strategic impact, logic, and data dependencies.
+                </p>
+            </div>
+
+            <div id="sectionsContainer" class="space-y-20 pb-20">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const kpiData = [
+            { id: 'talent-acquisition', title: 'Talent Acquisition Excellence', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', theme: 1, kpis: [
+                { name: 'Qualified Applicant Rate', purpose: 'Measures efficiency of the recruitment funnel top. Low rates indicate sourcing misalignment.', formula: '(Qualified Applicants / Total Applicants) * 100', prereqs: 'ATS: Applicant_ID, Qualification_Status' },
+                { name: 'Source of Hire Effectiveness', purpose: 'Determines channel ROI to optimize budget. Where should we invest?', formula: '(Hires from Source / Total Hires) * 100', prereqs: 'ATS: Hire_ID, Application_Source_Channel' },
+                { name: 'Cost per Hire', purpose: 'Total financial investment per new hire. Critical for budget efficiency.', formula: '(Internal + External Costs) / Total Hires', prereqs: 'Finance Data + HRIS Headcount' },
+                { name: 'Quality of Hire', purpose: 'Ultimate recruitment success metric connecting decisions to business outcomes.', formula: '(Avg Perf / 5) * (1 - Turnover) * Mgr Sat', prereqs: 'Performance Rating + Turnover + Mgr Survey' }
+            ]},
+            { id: 'performance-mobility', title: 'Performance & Mobility', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', theme: 2, kpis: [
+                { name: 'Goal Completion Rate', purpose: 'Alignment and execution against company objectives. Signals process health.', formula: '(Completed Goals / Total Goals) * 100', prereqs: 'Perf System: Goal_Status' },
+                { name: 'Internal Mobility Rate', purpose: 'Effectiveness of internal talent development. Boosts retention.', formula: '(Internal Fills / Total Fills) * 100', prereqs: 'HRIS: Hire_Type' }
+            ]},
+            { id: 'retention-engagement', title: 'Retention & Engagement', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', theme: 3, kpis: [
+                { name: 'High-Performer Turnover', purpose: 'Attrition of critical segments. Disproportionate impact on business.', formula: '(Leaving Top Performers / Total Top Performers) * 100', prereqs: 'Perf Rating + Term Type' },
+                { name: 'Employee Net Promoter Score', purpose: 'Loyalty and advocacy measure. Simple indicator of overall culture.', formula: '% Promoters - % Detractors', prereqs: 'Engagement Survey: 0-10 Score' }
+            ]},
+            { id: 'leadership-succession', title: 'Leadership & Succession', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.272-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.272.356-1.857', theme: 4, kpis: [
+                { name: 'Executive Bench Strength', purpose: 'Readiness for critical roles. Low scores signal strategic risk.', formula: '(Positions with Ready Successors / Total Positions) * 100', prereqs: 'Succession Planning: Readiness_Level' },
+                { name: 'Span of Control', purpose: 'Direct reports per manager. Identifies redesign opportunities.', formula: 'Total Employees / Total Managers', prereqs: 'HRIS: Reporting Lines' }
+            ]},
+            { id: 'skills-capability', title: 'Skills & Capability', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l.707.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', theme: 5, kpis: [
+                { name: 'Skill Gap Percentage', purpose: 'Identifies critical gaps to direct L&D investments effectively.', formula: '(Roles with Gaps / Total Critical Roles) * 100', prereqs: 'Skills Assessment Platform' }
+            ]},
+            { id: 'compensation-equity', title: 'Compensation & Pay Equity', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', theme: 6, kpis: [
+                { name: 'Pay Equity Gap', purpose: 'Diagnoses disparities. Critical for fair culture and risk mitigation.', formula: '((Avg Pay A - Avg Pay B) / Avg Pay A) * 100', prereqs: 'HRIS: Salary + Demographic' }
+            ]},
+            { id: 'workforce-planning', title: 'Strategic Workforce Planning', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', theme: 7, kpis: [
+                { name: 'Revenue per Employee', purpose: 'Financial productivity measure. High-level efficiency view.', formula: 'Revenue / Total FTE', prereqs: 'Finance Data + HRIS Headcount' }
+            ]},
+            { id: 'deib', title: 'DEI & Well-being', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', theme: 8, kpis: [
+                { name: 'Inclusion Index', purpose: 'Belonging measure. Direct driver of innovation and retention.', formula: 'Avg agreement score on belonging questions', prereqs: 'Engagement Survey: Inclusion Module' }
+            ]},
+            { id: 'hr-operations', title: 'HR Ops & Service Delivery', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', theme: 9, kpis: [
+                { name: 'HR Process Automation', purpose: 'Operational maturity. Reduces error and increases scalability.', formula: '(Auto Processes / Total Processes) * 100', prereqs: 'Process Inventory Audit' }
+            ]},
+            { id: 'future-of-work', title: 'Future of Work & Risk', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', theme: 10, kpis: [
+                { name: 'Remote Work Effectiveness', purpose: 'Assesses sustainability by comparing perf across locations.', formula: 'Perf/Engagement by Location', prereqs: 'HRIS Location + Survey Data' }
+            ]}
+        ];
+
+        const sidebarNav = document.getElementById('sidebarNav');
+        const sectionsContainer = document.getElementById('sectionsContainer');
+
+        function renderFramework() {
+            kpiData.forEach(theme => {
+                // Sidebar Icons
+                const navItem = document.createElement('div');
+                navItem.className = `w-12 h-12 flex items-center justify-center cursor-pointer text-brand-muted hover:text-brand-text transition-all rounded-xl relative group theme-nav-item`;
+                navItem.setAttribute('data-id', theme.id);
+                navItem.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="${theme.icon}" />
+                    </svg>
+                    <div class="absolute left-16 bg-brand-card border border-brand-border px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none text-xs font-bold shadow-xl">
+                        ${theme.title}
+                    </div>
+                `;
+                navItem.onclick = () => document.getElementById(theme.id).scrollIntoView({ behavior: 'smooth' });
+                sidebarNav.appendChild(navItem);
+
+                // Section Content
+                const section = document.createElement('div');
+                section.id = theme.id;
+                section.className = 'scroll-mt-24';
+
+                const kpisHtml = theme.kpis.map(kpi => `
+                    <div class="glass-panel p-6 flex flex-col justify-between kpi-card">
+                        <div>
+                            <div class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-muted mb-4">Strategic KPI</div>
+                            <h3 class="text-xl font-bold mb-3">${kpi.name}</h3>
+                            <p class="text-xs text-brand-muted leading-relaxed mb-6 font-medium">${kpi.purpose}</p>
+                        </div>
+                        <div class="space-y-4 pt-4 border-t border-brand-border">
+                            <div>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted block mb-2">Logic Model</span>
+                                <div class="bg-brand-bg/50 px-3 py-2 rounded-lg text-[11px] font-mono border border-brand-border/50 text-brand-cyan">${kpi.formula}</div>
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted block mb-2">Data Integrity Requirements</span>
+                                <div class="text-[10px] font-bold text-brand-text opacity-80">${kpi.prereqs}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                section.innerHTML = `
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-cardLight border border-brand-border flex items-center justify-center">
+                            <svg class="w-6 h-6 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="${theme.icon}" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-black">${theme.title}</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${kpisHtml}
+                    </div>
+                `;
+                sectionsContainer.appendChild(section);
+            });
+        }
+
+        renderFramework();
+
+        // Theme Toggle logic
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') body.classList.remove('dark');
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Scrollspy for Sidebar
+        const mainContent = document.getElementById('frameworkContent');
+        const sectionElems = document.querySelectorAll('.scroll-mt-24');
+        const navItems = document.querySelectorAll('.theme-nav-item');
+
+        mainContent.addEventListener('scroll', () => {
+            let current = '';
+            sectionElems.forEach(section => {
+                if (mainContent.scrollTop >= (section.offsetTop - 120)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('nav-active');
+                if (item.getAttribute('data-id') === current) {
+                    item.classList.add('nav-active');
+                }
+            });
+        });
+
+        // Search logic
+        const searchInput = document.getElementById('kpiSearch');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.kpi-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(term) ? 'flex' : 'none';
+            });
+            // Hide themes if empty
+            document.querySelectorAll('.scroll-mt-24').forEach(section => {
+                const visibleCards = section.querySelectorAll('.kpi-card[style="display: flex;"]').length;
+                section.style.display = (visibleCards > 0 || term === '') ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>

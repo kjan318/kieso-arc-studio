@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 7: Strategic Workforce Planning & Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Strategic Workforce Planning & Health</h1>
+            <p class="text-slate-600 mt-1">This dashboard provides a high-level analysis of our workforce's financial productivity and our effectiveness at planning for future business needs.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Job Level</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Director+</option><option>Critical Roles</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                 <div>
+                    <label class="text-sm font-medium text-slate-500">Time Period</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>Last 12 Months</option><option>Last 24 Months</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our workforce becoming more or less productive over time?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we accurately planning our future headcount needs to support growth?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Do we have a clear understanding of the ROI from our people analytics initiatives?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are critical open positions putting our business objectives at risk?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Revenue per Employee <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">A key measure of workforce productivity. It helps assess the financial return on labor costs and is used to benchmark against competitors and track organizational efficiency over time.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Total Company Revenue / Total FTEs</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Financial Data (Total Revenue), HRIS Data (Total FTEs)</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">$285K</p>
+                <p class="text-danger mt-1">▼ 8% Year-over-Year</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Vacancy Rate (Critical Roles) <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Measures organizational health and hiring efficiency. High vacancy in critical roles indicates recruiting challenges or high turnover, directly impacting productivity and revenue.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Open Positions / Total Positions) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Position Management System, List of Critical Roles</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">12%</p>
+                <p class="text-danger mt-1">Above 5% risk threshold</p>
+            </div>
+
+            <!-- Headcount Forecast Accuracy -->
+            <div class="col-span-12 lg:col-span-8 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Headcount Forecast Accuracy <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the reliability of workforce planning models. High accuracy is essential for effective budgeting, resource allocation, and talent acquisition, preventing over-staffing or critical talent shortages.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(1 - (Abs(Actual - Forecast) / Actual)) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Historical Workforce Planning Forecasts, HRIS Headcount Data</code></div></span>
+                </h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Trailing 12 Months: <strong class="text-warning">88% Accuracy</strong></p>
+                <div class="relative h-80 w-full"><canvas id="forecastChart"></canvas></div>
+            </div>
+            
+            <!-- Analytics ROI -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Analytics Project ROI <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the financial impact of people analytics initiatives. It's crucial for justifying investment in the function and prioritizing projects that deliver the most value.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Financial Gain - Project Cost) / Project Cost</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Project Cost Data, Measured Financial Gain/Impact Data</code></div></span>
+                </h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Return on key initiatives launched in the last 18 months.</p>
+                <div class="space-y-4">
+                    <div class="p-3 bg-green-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold text-green-800">Turnover Reduction Model</span>
+                            <span class="text-lg font-bold text-green-600">350%</span>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold text-green-800">Onboarding Process Automation</span>
+                            <span class="text-lg font-bold text-green-600">120%</span>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-red-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold text-red-800">Internal Mobility Platform</span>
+                            <span class="text-lg font-bold text-red-600">-40%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnostic Card -->
+            <div class="col-span-12 glossy-card p-6 bg-slate-50">
+                <h2 class="text-xl font-bold text-amber-600 mb-4">Diagnostic: Key Drivers of Declining Revenue per Employee</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">1.</strong><div><strong>High Vacancy in Revenue-Generating Roles:</strong> The 15% vacancy rate in Sales directly impacts revenue potential. Each open Account Executive role represents an estimated $1.5M in lost annual bookings.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">2.</strong><div><strong>Slow Time to Productivity:</strong> New hires in Engineering take an average of 6 months to become fully productive, impacting product velocity and innovation.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">3.</strong><div><strong>High-Performer Turnover:</strong> The 12% turnover rate for top-performing employees (see Retention dashboard) removes the most productive individuals from the workforce.</div></li>
+                </ul>
+            </div>
+            
+            
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Refine Forecasting Model:</strong> Incorporate leading indicators like voluntary turnover trends and sales pipeline data into the Q4 headcount forecasting model to improve accuracy.</div>
+                    <div><strong class="text-slate-900">Prioritize Critical Role Recruitment:</strong> Allocate two additional dedicated recruiters to focus exclusively on filling open roles in the Sales and Engineering departments.</div>
+                    <div><strong class="text-slate-900">Conduct Post-Mortem on Low-ROI Project:</strong> Launch a review of the Internal Mobility Platform to understand low adoption and determine a course-correction plan or decommissioning strategy.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Forecast Chart
+        new Chart(document.getElementById('forecastChart'), {
+            type: 'line',
+            data: {
+                labels: ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025'],
+                datasets: [{
+                    label: 'Actual Headcount',
+                    data: [2500, 2550, 2650, 2700],
+                    borderColor: '#0ea5e9',
+                    backgroundColor: '#0ea5e9',
+                    tension: 0.1,
+                    fill: false
+                }, {
+                    label: 'Forecasted Headcount',
+                    data: [2520, 2610, 2620, 2800],
+                    borderColor: '#94a3b8',
+                    backgroundColor: '#94a3b8',
+                    borderDash: [5, 5],
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: { ...chartJSConfig, plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } } }
+        });
+    </script>
+</body>
+</html>

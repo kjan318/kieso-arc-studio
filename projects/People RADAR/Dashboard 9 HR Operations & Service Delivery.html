@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 9: HR Operations & Service Delivery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">HR Operations & Service Delivery</h1>
+            <p class="text-slate-600 mt-1">This dashboard provides a comprehensive analysis of the HR function's internal efficiency, service quality, and its effectiveness in supporting our employees.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">HR Ticket Category</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Benefits</option><option>Payroll</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Event Type</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Promotion</option><option>Transfer</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Time Period</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>Last Quarter</option><option>Last 12 Months</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we resolving employee inquiries quickly and effectively?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Where are the biggest opportunities to improve efficiency through automation?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our HR Business Partner model structured to provide optimal strategic support?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are our core HR processes, like payroll and employee lifecycle events, running flawlessly?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Avg. Ticket Resolution Time <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the efficiency of the HR support function. A long resolution time can lead to employee frustration, decreased productivity, and a poor perception of HR service quality.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Average(Ticket Resolution Date - Ticket Creation Date)</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HR Ticketing System Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">48 <span class="text-2xl text-slate-400">Hours</span></p>
+                <p class="text-warning mt-1">▲ 12% from last quarter</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Employee Satisfaction w/ HR <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Directly measures employee perception of HR service quality. It is a key indicator of the HR team's effectiveness in its support role and impacts overall employee experience.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Average score from post-interaction surveys (e.g., on a 5-point scale)</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Post-HR Interaction Survey Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">3.8 <span class="text-2xl text-slate-400">/ 5</span></p>
+                <p class="text-warning mt-1">Trending down since Q1</p>
+            </div>
+
+            <!-- Event Processing Cycle Time -->
+            <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Event Processing Cycle Time (Days) <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the efficiency of core HR transactional processes. Long cycle times for key events like promotions can negatively impact employee morale and create administrative bottlenecks.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Average(Event Completion Date - Event Initiation Date)</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Data with Event Timestamps</code></div></span>
+                </h3>
+                 <div class="relative h-64 w-full"><canvas id="cycleTimeChart"></canvas></div>
+            </div>
+            
+            <!-- KPI Column -->
+            <div class="col-span-12 lg:col-span-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+                 <div class="glossy-card p-4 text-center">
+                    <h3 class="text-md font-semibold text-slate-500">First-Time Payroll Accuracy <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">A critical measure of operational excellence. High accuracy is foundational to employee trust in the company. Errors can cause significant employee distress and require costly rework.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">((Total Paychecks - Errored Paychecks) / Total Paychecks) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Payroll System Data, Error Logs</code></div></span>
+                    </h3>
+                    <p class="text-4xl font-bold text-success mt-1">99.8%</p>
+                </div>
+                 <div class="glossy-card p-4 text-center">
+                    <h3 class="text-md font-semibold text-slate-500">HRIS Self-Service Adoption <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures how effectively employees are using self-service tools. Higher adoption reduces the administrative burden on the HR team, freeing them up for more strategic work.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Active Self-Service Users / Total Employees) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS User Activity/Login Data</code></div></span>
+                    </h3>
+                    <p class="text-4xl font-bold text-slate-900 mt-1">65%</p>
+                </div>
+            </div>
+            
+            <!-- Diagnostic -->
+            <div class="col-span-12 glossy-card p-6 bg-slate-50">
+                <h2 class="text-xl font-bold text-amber-600 mb-4">Diagnostic: Key Drivers of Low HR Support Satisfaction</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                     <div>
+                        <h4 class="font-bold text-slate-800">Long Resolution Time</h4>
+                        <p class="text-slate-600">Tickets related to <strong class="text-amber-700">Benefits & Leave of Absence</strong> take an average of 72 hours to resolve, driving down the overall score.</p>
+                    </div>
+                     <div>
+                        <h4 class="font-bold text-slate-800">Low First-Contact Resolution</h4>
+                        <p class="text-slate-600">35% of employee inquiries require follow-up from the employee or escalation to another HR team member, indicating a lack of clear ownership or knowledge.</p>
+                    </div>
+                     <div>
+                        <h4 class="font-bold text-slate-800">Lack of Proactive Communication</h4>
+                        <p class="text-slate-600">Survey comments frequently mention frustration with the lack of status updates on complex, multi-day tickets.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- KPI Row -->
+            <div class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">HR Process Automation Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures the maturity and efficiency of HR operations. A low rate indicates heavy reliance on manual work, which is prone to error, slow, and not scalable.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Automated HR Processes / Total HR Processes) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HR Process Inventory & Automation Status</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-danger mt-2">25%</p>
+                    <p class="text-slate-500 mt-1">High reliance on manual processes</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                     <h3 class="text-lg font-semibold text-slate-500">HRBP to Employee Ratio <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Indicates the workload and strategic capacity of the HR Business Partner team. A very high ratio can mean HRBPs are spread too thin and focused on tactical rather than strategic issues.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Total Employees / Total HRBPs</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Headcount and HR Team Roster</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-warning mt-2">1 : 450</p>
+                    <p class="text-slate-500 mt-1">Above industry benchmark of 1:300</p>
+                </div>
+            </div>
+            
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Automate Onboarding Document Flow:</strong> Implement a workflow automation tool to manage onboarding document collection and verification, reducing manual effort by an estimated 50 hours per month.</div>
+                    <div><strong class="text-slate-900">Launch an HR Knowledge Base:</strong> Create and promote a centralized, searchable knowledge base for employees to self-serve answers to common benefits and policy questions, aiming to reduce ticket volume by 20%.</div>
+                    <div><strong class="text-slate-900">Review HR Service Delivery Model:</strong> Analyze ticket data to determine if a tiered support model (Tier 1 for simple inquiries, Tier 2 for complex cases) would improve resolution times and employee satisfaction.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Cycle Time Chart
+        new Chart(document.getElementById('cycleTimeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['New Hire Onboarding', 'Termination', 'Transfer', 'Promotion'],
+                datasets: [{
+                    label: 'Cycle Time in Days',
+                    data: [3, 5, 7, 14],
+                    backgroundColor: ['#4ade80', '#a1a1aa', '#f59e0b', '#dc2626'],
+                    borderRadius: 4
+                }]
+            },
+            options: { ...chartJSConfig, scales: { x: { ...chartJSConfig.scales.x, grid: { display: true } } } }
+        });
+    </script>
+</body>
+</html>

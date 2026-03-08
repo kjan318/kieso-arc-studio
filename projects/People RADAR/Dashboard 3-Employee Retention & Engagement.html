@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 3: Employee Retention & Engagement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Employee Retention & Engagement</h1>
+            <p class="text-slate-600 mt-1">This dashboard identifies key drivers of employee loyalty and attrition, with a focus on our most critical talent segments.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Job Level</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Director+</option><option>Manager</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Diversity</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Gender</option><option>Ethnicity</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we losing the employees we can least afford to lose?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> What are the root causes of employee turnover?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> How likely are our employees to recommend us as a great place to work?</li>
+                     <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we actively listening to employee feedback?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">eNPS <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures employee loyalty by asking how likely they are to recommend the company as a place to work. It's a quick pulse on overall engagement.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">% Promoters (9-10) - % Detractors (0-6)</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Data from an Employee Survey Platform</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">+15</p>
+                <p class="text-warning mt-1">Trending down from +28 last year</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Survey Participation <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Indicates the level of employee engagement with feedback initiatives. Low participation can signal survey fatigue or a lack of trust in the process.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Survey Responses / Total Employees Invited) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Data from an Employee Survey Platform & HRIS</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">72%</p>
+                <p class="text-danger mt-1">Below target of 85%</p>
+            </div>
+
+            <!-- Turnover Trend -->
+            <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Critical Talent Turnover Trend (Annualized)</h3>
+                 <div class="relative h-80 w-full"><canvas id="turnoverTrendChart"></canvas></div>
+            </div>
+
+             <!-- Turnover KPIs -->
+            <div class="col-span-12 lg:col-span-5 grid grid-cols-1 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">High-Performer Turnover <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures the attrition of top performers, whose departure disproportionately impacts business results, innovation, and team morale.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Hi-Perf Leavers / Total Hi-Perf) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS & Performance Management System Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-warning mt-2">8.5%</p>
+                    <p class="text-slate-500 mt-1">vs. 4% for other employees</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">High-Potential Turnover <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Tracks attrition of future leaders. Losing this group jeopardizes the company's succession pipeline and long-term strategic capabilities.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(HiPo Leavers / Total HiPos) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS & Talent Management System Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-danger mt-2">14.2%</p>
+                    <p class="text-slate-500 mt-1">Mainly from Engineering Dept.</p>
+                </div>
+            </div>
+            
+            <!-- Diagnostic -->
+            <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                 <h3 class="text-xl font-bold text-amber-600">Diagnostic: Key Drivers of Attrition</h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Statistical analysis of exit survey and engagement data.</p>
+                 <div class="relative h-[28rem] w-full"><canvas id="driversChart"></canvas></div>
+            </div>
+
+            <!-- Predictive -->
+            <div class="col-span-12 lg:col-span-5 glossy-card p-6 bg-slate-50">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Predictive: Attrition Risk Forecast</h2>
+                <div class="text-center mb-6">
+                    <p class="text-lg font-semibold text-slate-500">Next 90 Days - Key Roles</p>
+                    <p class="text-6xl font-bold text-danger mt-2">32</p>
+                    <p class="text-slate-600">Employees at High Risk of Exit</p>
+                </div>
+                <h4 class="font-bold text-slate-800 mb-2">High-Risk Profile:</h4>
+                <ul class="space-y-2 text-slate-600 text-sm">
+                    <li class="flex"><strong class="w-28 font-medium text-slate-500">Top Reason:</strong><span class="font-semibold text-slate-800">Lack of Career Growth</span></li>
+                    <li class="flex"><strong class="w-28 font-medium text-slate-500">Avg. Tenure:</strong> 2.1 Years</li>
+                    <li class="flex"><strong class="w-28 font-medium text-slate-500">Top Dept:</strong> Engineering (18 employees)</li>
+                    <li class="flex"><strong class="w-28 font-medium text-slate-500">Performance:</strong> Top 2 Quartiles</li>
+                </ul>
+            </div>
+
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Conduct "Stay Interviews" for HiPo Talent:</strong> Proactively engage with all high-potential employees in Engineering to understand their career goals and address retention risks.</div>
+                    <div><strong class="text-slate-900">Launch Manager Training on Career Coaching:</strong> Equip managers with the skills to have meaningful career development conversations, addressing the top driver of attrition.</div>
+                     <div><strong class="text-slate-900">Analyze eNPS Detractor Comments:</strong> Perform a qualitative analysis on the open-text feedback from eNPS detractors to identify specific themes and action items by department.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Turnover Trend Chart
+        new Chart(document.getElementById('turnoverTrendChart'), {
+            type: 'line',
+            data: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q1 (This Yr)', 'Q2 (This Yr)'],
+                datasets: [{
+                    label: 'High-Performer Turnover %',
+                    data: [5.5, 6.0, 5.8, 6.5, 7.8, 8.5],
+                    borderColor: '#f59e0b',
+                    backgroundColor: '#f59e0b20',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'High-Potential Turnover %',
+                    data: [7.0, 8.1, 8.5, 9.2, 11.5, 14.2],
+                    borderColor: '#dc2626',
+                    backgroundColor: '#dc262620',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: chartJSConfig
+        });
+
+        // Key Drivers Chart
+        new Chart(document.getElementById('driversChart'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Lack of Career Growth', 
+                    'Compensation', 
+                    'Manager Effectiveness', 
+                    'Work-Life Balance',
+                    'Lack of Development',
+                    'Recognition',
+                    'Workload / Burnout',
+                    'Company Culture',
+                    'Relationship with Peers',
+                    'Lack of Autonomy'
+                ],
+                datasets: [{
+                    label: 'Impact on Attrition (Correlation Score)',
+                    data: [0.85, 0.72, 0.65, 0.58, 0.55, 0.48, 0.45, 0.41, 0.32, 0.25],
+                    backgroundColor: [
+                        '#b91c1c', '#dc2626', '#ef4444', '#f87171', '#fca5a5', 
+                        '#fee2e2', '#fecaca', '#fca5a5', '#f87171', '#ef4444'
+                    ].reverse(),
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                ...chartJSConfig,
+                indexAxis: 'y',
+                 plugins: { legend: { display: false } },
+                 scales: {
+                    y: { ticks: { color: '#475569', font: {size: 11} }, grid: { color: '#e2e8f0' } },
+                    x: { ticks: { color: '#64748b' }, grid: { display: false } }
+                 }
+            }
+        });
+    </script>
+</body>
+</html>

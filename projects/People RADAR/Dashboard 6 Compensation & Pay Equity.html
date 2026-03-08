@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 6: Compensation & Pay Equity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Compensation & Pay Equity</h1>
+            <p class="text-slate-600 mt-1">This dashboard provides a comprehensive analysis of our compensation strategy, ensuring we pay our people competitively, equitably, and in alignment with our performance culture.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Job Level</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Director+</option><option>Individual Contributor</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Diversity</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Gender</option><option>Ethnicity</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we paying our employees competitively enough to attract and retain top talent?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our pay equitable across different demographic groups for similar work?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> How effectively are we managing employees' positions within their salary ranges?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Does our benefits strategy meet the needs of our diverse workforce?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Comp. Competitiveness <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures how the company's average salary for a role compares to the market average. A ratio below 1.0 indicates paying less than the market, posing a retention risk.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Company Average Salary / Market Average Salary</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Payroll Data, Market Salary Benchmark Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">0.98</p>
+                <p class="text-warning mt-1">2% below market average</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Gender Pay Gap (Adjusted) <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Measures the difference in pay between genders for similar roles after accounting for legitimate factors like tenure and performance. A non-zero gap indicates potential systemic bias.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">((Avg Pay Male - Avg Pay Female) / Avg Pay Male) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Data (Pay, Role, Level, Tenure, Perf., Demographics)</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">3.1%</p>
+                <p class="text-danger mt-1">Women earn 96.9¢ for every $1 men earn</p>
+            </div>
+
+            <!-- Pay Equity Gap Analysis -->
+            <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Diagnostic: Pay Equity Gap Analysis</h3>
+                <div class="relative h-80 w-full"><canvas id="payEquityChart"></canvas></div>
+            </div>
+            
+            <!-- Compa-Ratio Distribution -->
+            <div class="col-span-12 lg:col-span-5 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Compa-Ratio Distribution <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Shows where an employee's salary falls within their designated pay range (1.0 is the midpoint). It helps identify compression issues or under/overpaid employees.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Employee Salary / Salary Range Midpoint</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Payroll Data, Salary Range Structures</code></div></span>
+                </h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Majority of employees are below range midpoint.</p>
+                <div class="relative h-72 w-full"><canvas id="compaRatioChart"></canvas></div>
+            </div>
+
+            <!-- Competitiveness by Department -->
+            <div class="col-span-12 glossy-card p-6">
+                 <h3 class="text-xl font-bold text-slate-900">Compensation Competitiveness by Department</h3>
+                 <div class="relative h-64 w-full"><canvas id="competitivenessChart"></canvas></div>
+            </div>
+            
+             <!-- KPI Row -->
+            <div class="col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Variable Pay as % of Total Comp <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Shows the proportion of total pay that is performance-based. It indicates how strongly the compensation strategy is linked to a pay-for-performance culture.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Total Variable Pay / Total Compensation) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Payroll Data (Base, Bonus, Commission, etc.)</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-slate-900 mt-2">18%</p>
+                    <p class="text-slate-500 mt-1">Healthy alignment for Sales, low for others</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                     <h3 class="text-lg font-semibold text-slate-500">401(k) Participation Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures the percentage of eligible employees enrolled in a key benefit. It helps assess the effectiveness of benefits communication and perceived value.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Employees Enrolled / Total Eligible Employees) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Benefits Administration System Data, HRIS Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-slate-900 mt-2">78%</p>
+                    <p class="text-slate-500 mt-1">Below target of 90%</p>
+                </div>
+            </div>
+            
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Conduct Full Pay Equity Audit:</strong> Engage a third-party firm to conduct a privileged, comprehensive pay equity audit across gender and ethnicity, focusing on Engineering and Sales.</div>
+                    <div><strong class="text-slate-900">Market Salary Adjustment for Engineering:</strong> Implement a targeted 8-10% market salary adjustment for all roles in the Engineering department to address the competitiveness gap and mitigate retention risk.</div>
+                    <div><strong class="text-slate-900">Launch Benefits Education Campaign:</strong> Partner with the benefits provider to launch a targeted communication campaign to increase awareness and enrollment in the 401(k) plan, especially for employees under 30.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: false, position: 'top', align: 'end', labels: {color: '#475569'} } },
+            scales: {
+                y: { ticks: { color: '#64748b', callback: function(value) { return value + '%'; } }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Pay Equity Chart
+        new Chart(document.getElementById('payEquityChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Gender Pay Gap', 'Ethnicity Pay Gap'],
+                datasets: [{
+                    label: 'Unadjusted (Raw)',
+                    data: [8.5, 6.2],
+                    backgroundColor: '#a1a1aa',
+                    borderRadius: 4
+                }, {
+                    label: 'Adjusted (Controlled)',
+                    data: [3.1, 2.5],
+                    backgroundColor: '#dc2626',
+                    borderRadius: 4
+                }]
+            },
+            options: { ...chartJSConfig, plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } } }
+        });
+
+        // Compa-Ratio Chart
+        new Chart(document.getElementById('compaRatioChart'), {
+            type: 'bar',
+            data: {
+                labels: ['< 0.8', '0.8-0.9', '0.9-1.0', '1.0-1.1', '1.1-1.2', '> 1.2'],
+                datasets: [{
+                    label: 'Employee Distribution',
+                    data: [8, 25, 35, 20, 10, 2],
+                    backgroundColor: '#0ea5e9'
+                }]
+            },
+             options: { ...chartJSConfig, scales: { y: { ticks: {callback: function(value) { return value; }} }, x: { ...chartJSConfig.scales.x} } }
+        });
+
+        // Competitiveness by Department
+        new Chart(document.getElementById('competitivenessChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Sales', 'Marketing', 'G&A', 'Product', 'Engineering'],
+                datasets: [{
+                    label: 'Competitiveness Ratio',
+                    data: [1.05, 1.01, 0.99, 0.95, 0.92],
+                    backgroundColor: ['#16a34a', '#a3e635', '#fde047', '#f59e0b', '#dc2626'],
+                    borderRadius: 4
+                }]
+            },
+            options: { 
+                indexAxis: 'y',
+                scales: {
+                    x: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                    y: { ticks: { color: '#64748b' }, grid: { display: false } }
+                },
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>

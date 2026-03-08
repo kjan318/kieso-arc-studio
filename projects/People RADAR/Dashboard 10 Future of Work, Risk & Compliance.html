@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 10: Future of Work, Risk & Compliance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Future of Work, Risk & Compliance</h1>
+            <p class="text-slate-600 mt-1">This dashboard assesses our readiness for evolving work models while monitoring key operational, compliance, and sustainability risks.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Training Type</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>InfoSec</option><option>Anti-Harassment</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Time Period</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>This Year</option><option>Last Year</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are our remote and hybrid work models sustainable for the long term?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Where are our most significant compliance risks, and are we addressing them?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is the quality of our people data a business risk or a strategic asset?</li>
+                     <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are our global mobility programs delivering a positive return on investment?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Compliance Training Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the organization's adherence to mandatory training requirements. A low rate signals significant legal and operational risk.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Employees with Completed Training / Total Employees) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">LMS Data (Training Status, Due Dates)</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">92%</p>
+                <p class="text-warning mt-1">Below 95% target, with critical gaps</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Assignment Success Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Measures the ROI of costly international assignments. A low rate indicates potential issues with candidate selection, support, or cultural adaptation, leading to talent loss and wasted investment.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Successful Assignments / Total Assignments Completed) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Global Mobility Records, HRIS Data (Termination Dates)</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-danger mt-2">65%</p>
+                <p class="text-slate-500 mt-1">35% failure rate is a major cost</p>
+            </div>
+
+            <!-- Remote/Hybrid Work Effectiveness -->
+            <div class="col-span-12 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Remote/Hybrid Work Effectiveness <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Assesses whether remote/hybrid work is sustainable and productive by comparing performance and engagement across work locations to identify challenges before they impact business outcomes.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Avg Performance Rating & Engagement Score segmented by Work Location</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS (Work Location), Performance Data, Engagement Survey Data</code></div></span>
+                </h3>
+                <p class="text-sm text-slate-500 mb-4 -mt-1">Comparing key metrics for fully remote vs. in-office employees.</p>
+                <div class="relative h-80 w-full"><canvas id="effectivenessChart"></canvas></div>
+            </div>
+
+            <!-- Diagnostic Card -->
+            <div class="col-span-12 glossy-card p-6 bg-slate-50">
+                <h2 class="text-xl font-bold text-amber-600 mb-4">Diagnostic: Why is Remote Employee Engagement Dropping?</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">1.</strong><div><strong>Lack of Connection:</strong> Engagement survey comments from remote employees are 3x more likely to mention feeling "disconnected" from their team and company culture.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">2.</strong><div><strong>Career Growth Concerns:</strong> Remote employees score 15 points lower on survey items related to "fairness of promotion opportunities" compared to their in-office peers.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">3.</strong><div><strong>Meeting Fatigue:</strong> Collaboration tool data shows remote employees are in 30% more virtual meetings, correlating with lower scores on work-life balance.</div></li>
+                </ul>
+            </div>
+            
+            <!-- Foundational Risk KPIs -->
+            <div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Data Accuracy Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Measures the reliability of the core HRIS data. Inaccurate data undermines all people analytics, leading to flawed insights and poor strategic decisions.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Accurate Records / Total Audited Records) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Data Audit Results</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-success mt-2">98%</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Document Completion Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Tracks the completeness of required employee documentation. Gaps can represent significant compliance and legal risks, especially for regulated roles.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Completed Documents / Total Required) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Employee Document Management System Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-success mt-2">96%</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Employee Carbon Footprint <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Estimates the environmental impact of employee activities. It is a key metric for ESG (Environmental, Social, and Governance) reporting and corporate sustainability initiatives.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Sum of (Commute Emissions + Travel Emissions)</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Commute Surveys, Business Travel Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-slate-900 mt-2">4.2 <span class="text-xl">tCO₂e/FTE</span></p>
+                </div>
+            </div>
+
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Launch Remote Engagement Initiative:</strong> Develop structured programs for remote employees focused on mentorship, virtual connection, and ensuring equal visibility for career opportunities.</div>
+                    <div><strong class="text-slate-900">Automate Compliance Tracking:</strong> Implement automated reminders and manager escalations for overdue mandatory training to close the 8% compliance gap and reduce risk.</div>
+                    <div><strong class="text-slate-900">Revamp Global Assignment Process:</strong> Conduct a thorough review of the international assignment selection and support process to identify root causes of the 35% failure rate.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Effectiveness Chart
+        new Chart(document.getElementById('effectivenessChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: [{
+                    type: 'bar',
+                    label: 'Performance Rating (Remote)',
+                    data: [4.2, 4.3, 4.2, 4.3],
+                    backgroundColor: '#64748b',
+                    yAxisID: 'y',
+                }, {
+                    type: 'bar',
+                    label: 'Performance Rating (In-Office)',
+                    data: [4.1, 4.2, 4.1, 4.1],
+                    backgroundColor: '#cbd5e1',
+                    yAxisID: 'y',
+                }, {
+                    type: 'line',
+                    label: 'Engagement Score (Remote)',
+                    data: [78, 75, 72, 70],
+                    borderColor: '#dc2626',
+                    backgroundColor: '#dc2626',
+                    tension: 0.2,
+                    yAxisID: 'y1',
+                }, {
+                    type: 'line',
+                    label: 'Engagement Score (In-Office)',
+                    data: [80, 81, 80, 81],
+                    borderColor: '#0ea5e9',
+                    backgroundColor: '#0ea5e9',
+                    tension: 0.2,
+                    yAxisID: 'y1',
+                }]
+            },
+            options: {
+                ...chartJSConfig,
+                scales: {
+                    x: { stacked: true },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Avg. Performance Rating', color: '#475569' },
+                        suggestedMax: 5,
+                        suggestedMin: 3
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Engagement Score / 100', color: '#475569' },
+                        grid: { drawOnChartArea: false },
+                        suggestedMax: 100,
+                        suggestedMin: 60
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

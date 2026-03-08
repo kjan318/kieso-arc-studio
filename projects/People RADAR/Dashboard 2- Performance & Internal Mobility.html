@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 2: Performance & Internal Mobility</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Performance & Internal Mobility</h1>
+            <p class="text-slate-600 mt-1">This dashboard analyzes our effectiveness at managing performance and cultivating talent from within, identifying opportunities for growth.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Job Level</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Director+</option><option>Manager</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Diversity</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Gender</option><option>Ethnicity</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are we promoting our best people, or are we at risk of losing them?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Do all departments provide equal opportunities for career growth?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our performance management process effectively driving results and alignment?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our apprentice program a reliable and high-quality source of future talent?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Internal Mobility Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the extent to which the company fills roles with internal talent. A high rate indicates strong career pathing, talent development, and can improve retention.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Positions Filled Internally / Total Positions Filled) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">ATS and HRIS Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">18%</p>
+                <p class="text-danger mt-1">Below industry benchmark of 25%</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Goal Completion Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Measures how effectively the performance management system drives alignment and execution. It shows if employees are clear on goals and achieving them.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Completed Goals / Total Employees in Cycle) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Performance Management System & HRIS Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">88%</p>
+                <p class="text-warning mt-1">▼ 7% from last cycle</p>
+            </div>
+
+            <!-- Internal Mobility Breakdown -->
+            <div class="col-span-12 lg:col-span-8 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Internal Mobility by Department</h3>
+                <div class="relative h-80 w-full"><canvas id="mobilityChart"></canvas></div>
+            </div>
+
+            <!-- Diagnostic Card -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6 bg-slate-50">
+                <h2 class="text-xl font-bold text-amber-600 mb-4">Diagnostic: Key Drivers of Low Mobility</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">1.</strong><div><strong>Lack of Career Paths:</strong> Data shows 65% of Engineering employees do not have a defined career path in the HRIS.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">2.</strong><div><strong>Talent Hoarding:</strong> Exit surveys from high-performers in Sales frequently cite "no opportunity to move to another team."</div></li>
+                     <li class="flex items-start"><strong class="text-amber-600 mr-2">3.</strong><div><strong>Low Role Visibility:</strong> Only 40% of open roles are posted internally before being advertised externally.</div></li>
+                </ul>
+            </div>
+            
+            <!-- Performance vs Promotion -->
+             <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Predictive: High-Performer Flight Risk</h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Analyzing performance ratings vs. time since last promotion.</p>
+                 <div class="relative h-96 w-full"><canvas id="flightRiskChart"></canvas></div>
+            </div>
+            
+             <!-- Apprentice Program ROI -->
+            <div class="col-span-12 lg:col-span-5 grid grid-cols-1 gap-6">
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">Apprentice Conversion Rate <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                        <p class="info-tooltip-purpose">Evaluates the success of apprentice/internship programs as a long-term talent pipeline by measuring how many participants become full-time employees.</p>
+                        <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Apprentices Hired / Apprentices Graduated) * 100</code>
+                        <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Program Management Data & HRIS Data</code></div></span>
+                    </h3>
+                    <p class="text-5xl font-bold text-success mt-2">75%</p>
+                    <p class="text-slate-500 mt-1">of apprentices hired into full-time roles.</p>
+                </div>
+                <div class="glossy-card p-6 text-center">
+                    <h3 class="text-lg font-semibold text-slate-500">1-Year Performance Score</h3>
+                    <div class="flex justify-around items-center mt-4">
+                        <div>
+                            <p class="text-4xl font-bold text-sky-500">88</p>
+                            <p class="text-sm text-slate-500">Ex-Apprentices</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-bold text-slate-400">84</p>
+                            <p class="text-sm text-slate-500">External Hires</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Launch Career Pathing Initiative:</strong> Partner with Engineering leadership to define and publish formal career paths for all technical roles by the end of Q4.</div>
+                    <div><strong class="text-slate-900">Review High-Performers in "Flight Risk Zone":</strong> Schedule talent review sessions with managers to discuss development plans for top performers who have been in-role for over 2 years.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' }, stacked: true },
+                x: { ticks: { color: '#64748b' }, grid: { display: false }, stacked: true }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Mobility Chart
+        new Chart(document.getElementById('mobilityChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Engineering', 'Sales', 'Product', 'Marketing', 'G&A'],
+                datasets: [{
+                    label: 'Promotions',
+                    data: [5, 22, 18, 15, 12],
+                    backgroundColor: '#0ea5e9',
+                    borderRadius: 4,
+                }, {
+                    label: 'Lateral Moves',
+                    data: [15, 10, 12, 8, 9],
+                    backgroundColor: '#a1a1aa',
+                    borderRadius: 4,
+                }]
+            },
+            options: chartJSConfig
+        });
+
+        // Flight Risk Chart (Scatter)
+        new Chart(document.getElementById('flightRiskChart'), {
+            type: 'scatter',
+            data: {
+                 datasets: [{
+                    label: 'Promoted',
+                    data: [{x: 4.1, y: 1.2}, {x: 4.5, y: 1.8}, {x: 4.8, y: 2.1}, {x: 3.9, y: 0.8}],
+                    backgroundColor: '#0ea5e9',
+                    pointRadius: 6,
+                }, {
+                    label: 'Not Promoted',
+                    data: [{x: 2.5, y: 1.5}, {x: 3.1, y: 2.5}, {x: 3.5, y: 0.5}, {x: 2.8, y: 3.1}, {x: 3.8, y: 1.9}],
+                    backgroundColor: '#a1a1aa',
+                    pointRadius: 6,
+                }, {
+                    label: 'High Flight Risk',
+                    data: [{x: 4.6, y: 2.8}, {x: 4.9, y: 3.2}, {x: 4.2, y: 3.5}, {x: 4.7, y: 2.5}],
+                    backgroundColor: '#dc2626',
+                    pointRadius: 8,
+                }]
+            },
+            options: {
+                ...chartJSConfig,
+                scales: {
+                    y: { ...chartJSConfig.scales, stacked: false, title: { display: true, text: 'Years Since Last Promotion', color: '#475569'} },
+                    x: { ...chartJSConfig.scales, stacked: false, title: { display: true, text: 'Last Performance Rating (out of 5)', color: '#475569'} }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -325,7 +325,11 @@
             <a href="#contact" class="hover:text-current transition-colors cursor-none">Contact</a>
         </div>
 
-        <div class="flex gap-4">
+        <div class="flex gap-4 items-center">
+            <a href="projects/People RADAR/KPI_index_glossy.html"
+                class="liquid-button-wrapper interactive cursor-none hidden md:block">
+                <div class="liquid-button !py-2 !px-4 !text-xs">View Dashboard</div>
+            </a>
             <!-- Theme Controller -->
             <div class="toggle-group interactive">
                 <button onclick="setTheme('light')" id="btn-light" class="toggle-btn">Light</button>
@@ -522,9 +526,28 @@
             <div class="inner-line"></div>
             <p class="mb-8 opacity-80 leading-relaxed text-lg">Launched the first real-time analytics platform for MB
                 Greater China, automating 40%+ manual reporting and powering executive decisions.</p>
-            <button class="liquid-button-wrapper" onclick="closeModal('project-1')">
+            <button class="liquid-button-wrapper interactive cursor-none" onclick="closeModal('project-1')">
                 <div class="liquid-button !py-3 !px-8">Close</div>
             </button>
+        </div>
+    </div>
+
+    <div id="modal-project-2" class="modal-overlay" onclick="closeModal('project-2')">
+        <div class="glass-card modal-content-card p-12 interactive cursor-none" onclick="event.stopPropagation()">
+            <h2 class="font-heading font-extrabold text-4xl mb-6">People RADAR</h2>
+            <div class="inner-line"></div>
+            <p class="mb-8 opacity-80 leading-relaxed text-lg">A "Vision Deck" of 10 interactive dashboards designed to
+                facilitate strategic discussions and guide future investments in People Analytics, featuring topics from
+                Talent Acquisition to Risk & Compliance.</p>
+            <div class="flex gap-4 flex-wrap">
+                <a href="projects/People RADAR/KPI_index_glossy.html"
+                    class="liquid-button-wrapper interactive cursor-none">
+                    <div class="liquid-button !py-3 !px-8">View Dashboard</div>
+                </a>
+                <button class="liquid-button-wrapper interactive cursor-none" onclick="closeModal('project-2')">
+                    <div class="liquid-button !py-3 !px-8">Close</div>
+                </button>
+            </div>
         </div>
     </div>
     <!-- ... More modals as needed ... -->
