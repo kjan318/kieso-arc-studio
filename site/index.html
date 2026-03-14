@@ -96,7 +96,7 @@
         }
 
         [data-theme="dark"] #liquid-canvas {
-            filter: invert(0.9) hue-rotate(180deg) brightness(0.4);
+            filter: invert(0.85) hue-rotate(180deg) brightness(0.7);
         }
 
         .noise-overlay {
@@ -213,7 +213,7 @@
         .toggle-btn {
             padding: 4px 8px;
             border-radius: 9999px;
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             transition: all 0.3s ease;
@@ -374,15 +374,25 @@
             gap: 4px;
             z-index: 110;
         }
+
         .menu-toggle span {
             width: 20px;
             height: 2px;
             background: var(--text-main);
             transition: all 0.3s ease;
         }
-        .menu-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; }
-        .menu-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
     </style>
 </head>
 
@@ -404,7 +414,7 @@
     <!-- Navigation -->
     <nav
         class="glass-nav fixed top-4 md:top-6 left-1/2 -translate-x-1/2 w-[94%] max-w-6xl rounded-full px-4 md:px-8 py-2 md:py-3 flex justify-between items-center z-[110] interactive">
-        
+
         <div class="flex items-center gap-4">
             <button class="menu-toggle lg:hidden interactive" onclick="toggleMenu()" id="menu-btn">
                 <span></span><span></span><span></span>
@@ -414,7 +424,7 @@
             </a>
         </div>
 
-        <div class="hidden lg:flex gap-8 font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+        <div class="hidden lg:flex gap-8 font-sans text-sm font-bold text-gray-400 uppercase tracking-widest">
             <a href="#about" class="hover:text-current transition-colors">About</a>
             <a href="#skills" class="hover:text-current transition-colors">Skills</a>
             <a href="#projects" class="hover:text-current transition-colors">Projects</a>
@@ -438,7 +448,7 @@
     <!-- Hero -->
     <main class="min-h-screen flex flex-col justify-center items-center px-6 pt-20 relative z-10 text-center">
         <h1
-            class="font-heading text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-extrabold tracking-tighter leading-[0.85] mb-8">
+            class="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-tight mb-8">
             <span class="overflow-hidden block"><span class="reveal-text block">BUSINESS IMPACT</span></span>
             <span class="overflow-hidden block"><span class="reveal-text text-metallic block">THROUGH AI</span></span>
         </h1>
@@ -523,7 +533,7 @@
                 <div class="flex flex-wrap gap-2 md:gap-3">
                     <span class="skill-badge">Python, R, SQL</span>
                     <span class="skill-badge">Power BI, DAX</span>
-                    <span class="skill-badge">Azure Cloude</span>
+                    <span class="skill-badge">Azure Cloud</span>
                 </div>
             </div>
             <div class="glass-card p-6 md:p-10 interactive">
@@ -607,7 +617,8 @@
         </div>
     </section>
 
-    <footer class="py-12 text-center opacity-30 text-[8px] md:text-xs font-bold tracking-widest uppercase relative z-10">
+    <footer
+        class="py-12 text-center opacity-30 text-[8px] md:text-xs font-bold tracking-widest uppercase relative z-10">
         &copy; 2026 Kieso Arc Studio
     </footer>
 
@@ -616,7 +627,8 @@
         <div class="glass-card modal-content-card p-8 md:p-12 interactive" onclick="event.stopPropagation()">
             <h2 class="font-heading font-extrabold text-2xl md:text-4xl mb-6">HR INSIGHTS</h2>
             <div class="inner-line"></div>
-            <p class="mb-8 opacity-80 leading-relaxed text-base md:text-lg">Launched the first real-time analytics platform for MB
+            <p class="mb-8 opacity-80 leading-relaxed text-base md:text-lg">Launched the first real-time analytics
+                platform for MB
                 Greater China, automating 40%+ manual reporting and powering executive decisions.</p>
             <button class="liquid-button-wrapper" onclick="closeModal('project-1')">
                 <div class="liquid-button !py-3 !px-8">Close</div>
@@ -636,7 +648,7 @@
         // Custom Cursor
         const cursor = document.getElementById('cursor');
         const isTouch = window.matchMedia("(pointer: coarse)").matches;
-        
+
         if (!isTouch) {
             document.addEventListener('mousemove', e => {
                 cursor.style.left = e.clientX + 'px';
@@ -675,28 +687,28 @@
         window.onload = () => {
             paper.install(window);
             paper.setup('liquid-canvas');
-            
+
             // Performance: Fewer segments on smaller screens
             const segmentsCount = window.innerWidth < 768 ? 6 : 10;
             const radiusScale = window.innerWidth < 768 ? 0.35 : 0.4;
 
             let blob = new Path({
-                fillColor: { 
-                    gradient: { stops: [['#fff', 0], ['#f1f5f9', 1]], radial: true }, 
-                    origin: view.center, 
-                    destination: view.bounds.rightCenter 
+                fillColor: {
+                    gradient: { stops: [['#ffffff', 0], ['#cbd5e1', 1]], radial: true },
+                    origin: view.center,
+                    destination: view.bounds.rightCenter
                 },
                 closed: true
             });
-            
+
             for (let i = 0; i < segmentsCount; i++) {
-                blob.add(view.center.add(new Point({ 
-                    length: Math.min(view.size.width, view.size.height) * radiusScale, 
-                    angle: (360 / segmentsCount) * i 
+                blob.add(view.center.add(new Point({
+                    length: Math.min(view.size.width, view.size.height) * radiusScale,
+                    angle: (360 / segmentsCount) * i
                 })));
             }
             blob.smooth();
-            
+
             view.onFrame = (e) => {
                 for (let i = 0; i < segmentsCount; i++) {
                     let seg = blob.segments[i];
