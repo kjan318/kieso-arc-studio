@@ -7,6 +7,7 @@
     <title>People RADAR • Talent Acquisition Excellence</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="design-system.css">
     <!-- Plus Jakarta Sans Font -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -40,43 +41,8 @@
         }
     </script>
     <style>
-        :root {
-            --brand-bg: #f8f9fa;
-            --brand-card: #ffffff;
-            --brand-card-light: #f1f3f5;
-            --brand-border: #dee2e6;
-            --brand-text: #1a1c1e;
-            --brand-muted: #64748b;
-            --brand-accent: #10b981;
-            --brand-accent-soft: #ecfdf5;
-            --brand-accent-dark: #064e3b;
-            --brand-cyan: #06b6d4;
-            --brand-cyan-soft: #ecfeff;
-            color-scheme: light;
-        }
-
-        .dark {
-            --brand-bg: #14171a;
-            --brand-card: #1c2126;
-            --brand-card-light: #262c33;
-            --brand-border: #333b45;
-            --brand-text: #f1f3f5;
-            --brand-muted: #919ba7;
-            --brand-accent: #6ee7b7;
-            --brand-accent-soft: #d1fae5;
-            --brand-accent-dark: #064e3b;
-            --brand-cyan: #22d3ee;
-            --brand-cyan-soft: #cffafe;
-            color-scheme: dark;
-        }
-
         body {
-            background-color: var(--brand-bg);
-            color: var(--brand-text);
-            font-family: "Plus Jakarta Sans", sans-serif;
             overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .glass-panel {
@@ -98,20 +64,6 @@
 
         .tabular-nums {
             font-variant-numeric: tabular-nums;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--brand-border);
-            border-radius: 10px;
         }
 
         .metric-glow {
@@ -141,8 +93,10 @@
     <aside
         class="w-[80px] rounded-[1.5rem] bg-brand-card border border-brand-border flex flex-col items-center py-6 flex-shrink-0">
         <a href="KPI_index_glossy.html"
-            class="w-10 h-10 rounded-full bg-brand-accentSoft flex items-center justify-center mb-8 cursor-pointer hover:scale-110 transition-transform">
-            <svg class="w-5 h-5 text-brand-accentDark" fill="currentColor" viewBox="0 0 24 24">
+            class="w-10 h-10 rounded-full bg-[#0D1117] border border-[#2DD4D4] 
+            shadow-[0_0_12px_rgba(45,212,212,0.4)] flex items-center justify-center 
+            mb-8 cursor-pointer hover:scale-110 transition-all">
+            <svg class="w-5 h-5 text-[#2DD4D4]" fill="currentColor" viewBox="0 0 24 24">
                 <path
                     d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.06 19.43 4 16.05 4 12C4 7.95 7.06 4.57 11 4.07V19.93ZM13 4.07C16.94 4.57 20 7.95 20 12C20 16.05 16.94 19.43 13 19.93V4.07Z" />
             </svg>
@@ -176,28 +130,54 @@
 
         <!-- Top Nav -->
         <header class="flex justify-between items-center mb-8 w-full flex-wrap gap-4">
-            <div class="flex flex-col">
-                <span class="text-brand-muted text-xs font-extrabold tracking-widest uppercase">Sunday, 08 Mar 2026</span>
-                <div class="flex items-center gap-2 mt-1">
-                    <div class="flex items-center gap-1 bg-brand-accentSoft px-2 py-0.5 rounded-full border border-brand-accent/20">
-                        <svg class="w-3.5 h-3.5 text-brand-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" /></svg>
-                        <span class="text-[10px] font-black text-brand-accentDark uppercase tracking-wider">Live</span>
+            <div class="flex flex-col gap-2">
+                <!-- SYSTEM:LIVE badge -->
+                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full w-max 
+                    bg-[rgba(45,212,212,0.08)] border border-[rgba(45,212,212,0.25)]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4D4] animate-pulse"></span>
+                    <span class="text-[10px] font-black tracking-widest text-[#2DD4D4]">SYSTEM:LIVE</span>
+                </div>
+                <div>
+                    <span class="text-brand-muted text-xs font-extrabold tracking-widest uppercase">Sunday, 08 Mar 2026</span>
+                    <div class="flex items-center gap-2 mt-1">
+                        <svg class="w-4 h-4 text-brand-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+                        </svg>
+                        <span class="text-sm font-bold tabular-nums">18°C • London</span>
                     </div>
-                    <span class="text-sm font-bold tabular-nums">18°C • London</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <div class="flex items-center gap-3 pr-4 border-r border-brand-border">
+                <!-- Team Avatar Row -->
+                <div class="hidden md:flex flex-col items-end mr-2 pr-4 border-r border-brand-border">
+                    <div class="flex -space-x-2 mb-1">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] object-cover" 
+                             src="https://i.pravatar.cc/100?img=1" alt="">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] object-cover" 
+                             src="https://i.pravatar.cc/100?img=2" alt="">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] object-cover" 
+                             src="https://i.pravatar.cc/100?img=3" alt="">
+                        <div class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] bg-brand-cardLight 
+                             flex items-center justify-center text-[10px] font-bold text-brand-text">+12</div>
+                    </div>
+                    <span class="text-[9px] font-black tracking-widest text-brand-muted uppercase">GLOBAL HR TEAM ACTIVE</span>
+                </div>
+
+                <!-- ADD ANALYSIS Button -->
+                <button class="hidden sm:block bg-[#2DD4D4] text-[#0D1117] font-black rounded-full 
+                    px-4 py-2 text-xs hover:bg-[#25BEBE] 
+                    hover:shadow-[0_0_16px_rgba(45,212,212,0.4)] transition-all mr-2">
+                    + ADD ANALYSIS
+                </button>
+
+                <div class="flex items-center gap-3">
                     <div class="hidden lg:flex flex-col items-end">
                         <span class="text-sm font-bold">Noah Brooks</span>
                         <span class="text-[10px] text-brand-muted font-bold uppercase tracking-wider">HR Lead</span>
                     </div>
-                    <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-border">
+                    <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#2DD4D4]">
                 </div>
-                <button class="bg-brand-accent text-brand-accentDark text-[10px] px-4 py-2.5 rounded-full hover:scale-105 transition-all font-black uppercase tracking-widest shadow-lg shadow-brand-accent/20">
-                    + Add Requisition
-                </button>
             </div>
         </header>
 

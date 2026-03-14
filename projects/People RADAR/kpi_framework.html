@@ -52,21 +52,23 @@
             --brand-accent-dark: #064e3b;
             --brand-cyan: #06b6d4;
             --brand-cyan-soft: #ecfeff;
+            --brand-accent-glow: rgba(16, 185, 129, 0.25);
             color-scheme: light;
         }
 
         .dark {
-            --brand-bg: #14171a;
-            --brand-card: #1c2126;
-            --brand-card-light: #262c33;
-            --brand-border: #333b45;
-            --brand-text: #f1f3f5;
-            --brand-muted: #919ba7;
-            --brand-accent: #6ee7b7;
-            --brand-accent-soft: #d1fae5;
-            --brand-accent-dark: #064e3b;
-            --brand-cyan: #22d3ee;
-            --brand-cyan-soft: #cffafe;
+            --brand-bg: #0D1117;
+            --brand-card: #161B22;
+            --brand-card-light: #1E242C;
+            --brand-border: #30363D;
+            --brand-text: #E6EDF3;
+            --brand-muted: #8B949E;
+            --brand-accent: #2DD4D4;
+            --brand-accent-soft: rgba(45, 212, 212, 0.10);
+            --brand-accent-dark: #0A3030;
+            --brand-cyan: #2DD4D4;
+            --brand-cyan-soft: rgba(45, 212, 212, 0.10);
+            --brand-accent-glow: rgba(45, 212, 212, 0.25);
             color-scheme: dark;
         }
 
@@ -88,17 +90,20 @@
         }
 
         .dark .glass-panel {
+            background: linear-gradient(135deg, #161B22, #1A2030);
+            backdrop-filter: blur(8px);
             box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.4);
         }
 
-        .kpi-card {
-            transition: all 0.2s ease;
-        }
-
-        .kpi-card:hover {
-            border-color: var(--brand-accent);
-            background-color: var(--brand-card-light);
-            transform: translateY(-2px);
+        /* New: hover fill handled by design-system.css */
+        .kpi-card { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .card-glow-active {
+            border-color: rgba(45, 212, 212, 0.45);
+            box-shadow: 
+                0 0 0 1px rgba(45, 212, 212, 0.2),
+                0 0 24px rgba(45, 212, 212, 0.08),
+                0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
         .tabular-nums {
@@ -115,12 +120,18 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--brand-border);
+            background: linear-gradient(to bottom, #2DD4D4, #1A9090);
             border-radius: 10px;
         }
 
+        input:focus {
+            border-color: #2DD4D4;
+            box-shadow: 0 0 0 3px rgba(45, 212, 212, 0.12);
+            outline: none;
+        }
+
         .nav-active {
-            background-color: var(--brand-border);
+            background-color: rgba(45, 212, 212, 0.08);
             color: var(--brand-text);
         }
 
@@ -131,14 +142,37 @@
             top: 25%;
             height: 50%;
             width: 4px;
-            background-color: var(--brand-accent);
+            background-color: #2DD4D4;
             border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 8px rgba(45, 212, 212, 0.5);
+        }
+
+        .nav-active .sidebar-badge {
+            box-shadow: 0 0 8px rgba(45, 212, 212, 0.4);
         }
 
         .highlight-match {
-            background-color: rgba(110, 231, 183, 0.3);
+            background-color: rgba(45, 212, 212, 0.2);
+            color: #2DD4D4;
+            font-weight: bold;
             border-radius: 2px;
             padding: 0 2px;
+        }
+        
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #2DD4D4, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .kpi-card:hover::before {
+            opacity: 1;
         }
 
         .view-list .kpi-grid {
@@ -183,8 +217,8 @@
     <aside
         class="w-[80px] rounded-[1.5rem] bg-brand-card border border-brand-border flex flex-col items-center py-6 flex-shrink-0">
         <a href="KPI_index_glossy.html"
-            class="w-10 h-10 rounded-full bg-brand-accentSoft flex items-center justify-center mb-8 cursor-pointer hover:scale-110 transition-transform">
-            <svg class="w-5 h-5 text-brand-accentDark" fill="currentColor" viewBox="0 0 24 24">
+            class="w-10 h-10 rounded-full bg-[#0D1117] border border-[#2DD4D4] shadow-[0_0_12px_rgba(45,212,212,0.4)] flex items-center justify-center mb-8 cursor-pointer hover:scale-110 transition-all">
+            <svg class="w-5 h-5 text-[#2DD4D4]" fill="currentColor" viewBox="0 0 24 24">
                 <path
                     d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.06 19.43 4 16.05 4 12C4 7.95 7.06 4.57 11 4.07V19.93ZM13 4.07C16.94 4.57 20 7.95 20 12C20 16.05 16.94 19.43 13 19.93V4.07Z" />
             </svg>
@@ -195,6 +229,7 @@
         </nav>
 
         <div class="flex flex-col gap-4 items-center mt-auto border-t border-brand-border pt-4">
+            <div id="heatmapContainer"></div>
              <a href="KPI_index_glossy.html" title="Back to Dashboard" class="w-10 h-10 flex items-center justify-center text-brand-muted hover:text-brand-text transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -208,13 +243,19 @@
 
         <!-- Top Nav -->
         <header class="flex justify-between items-center mb-8 w-full flex-wrap gap-4">
-            <div class="flex flex-col">
-                <span class="text-brand-muted text-xs font-extrabold tracking-widest uppercase">Sunday, 08 Mar 2026</span>
-                <div class="flex items-center gap-2 mt-1">
-                    <svg class="w-4 h-4 text-brand-accent" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
-                    </svg>
-                    <span class="text-sm font-bold tabular-nums">18°C • London</span>
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full w-max bg-[rgba(45,212,212,0.08)] border border-[rgba(45,212,212,0.25)]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4D4] animate-pulse"></span>
+                    <span class="text-[10px] font-black tracking-widest text-[#2DD4D4]">SYSTEM:LIVE</span>
+                </div>
+                <div>
+                    <span class="text-brand-muted text-xs font-extrabold tracking-widest uppercase">Sunday, 08 Mar 2026</span>
+                    <div class="flex items-center gap-2 mt-1">
+                        <svg class="w-4 h-4 text-brand-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+                        </svg>
+                        <span class="text-sm font-bold tabular-nums">18°C • London</span>
+                    </div>
                 </div>
             </div>
 
@@ -239,6 +280,22 @@
             </div>
 
             <div class="flex items-center gap-4">
+                <!-- Team Avatar Row -->
+                <div class="hidden md:flex flex-col items-end mr-2 pr-4 border-r border-brand-border">
+                    <div class="flex -space-x-2 mb-1">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] object-cover" src="https://i.pravatar.cc/100?img=1" alt="Team member">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] object-cover" src="https://i.pravatar.cc/100?img=2" alt="Team member">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] object-cover" src="https://i.pravatar.cc/100?img=3" alt="Team member">
+                        <div class="w-8 h-8 rounded-full ring-2 ring-[#0D1117] bg-brand-cardLight flex items-center justify-center text-[10px] font-bold text-brand-text">+12</div>
+                    </div>
+                    <span class="text-[9px] font-black tracking-widest text-brand-muted uppercase">GLOBAL HR TEAM ACTIVE</span>
+                </div>
+
+                <!-- Add Analysis Button -->
+                <button class="hidden sm:block bg-[#2DD4D4] text-[#0D1117] font-black rounded-full px-4 py-2 text-xs hover:bg-[#25BEBE] hover:shadow-[0_0_16px_rgba(45,212,212,0.4)] transition-all mr-2">
+                    + ADD ANALYSIS
+                </button>
+
                 <button id="themeToggle" class="w-10 h-10 rounded-full bg-brand-card border border-brand-border flex items-center justify-center hover:bg-brand-cardLight transition-all">
                     <svg class="w-4 h-4 text-brand-text hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.364 17.636l-.707.707M6.364 6.364l.707.707m10.607 10.607l.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -248,7 +305,7 @@
                     </svg>
                 </button>
                 <div class="flex items-center gap-3 pl-2 border-l border-brand-border">
-                    <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand-border">
+                    <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#2DD4D4]">
                     <div class="hidden lg:flex flex-col">
                         <span class="text-sm font-bold">Noah Brooks</span>
                         <span class="text-[10px] text-brand-muted font-bold uppercase tracking-wider">HR Lead</span>
@@ -260,7 +317,16 @@
         <div class="flex-grow overflow-y-auto pr-2" id="frameworkContent">
             <!-- Title Area -->
             <div class="mb-12">
-                <h1 class="text-4xl font-black tracking-tight mb-4">KPI Strategic Framework</h1>
+                <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+                    <h1 class="text-4xl tracking-tight">
+                        <span class="font-black text-white">People RADAR</span>
+                        <span class="font-black ml-2 text-brand-text opacity-90">KPI Strategic <span class="text-[#2DD4D4]">Framework</span></span>
+                    </h1>
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-[rgba(45,212,212,0.08)] border border-[rgba(45,212,212,0.2)] text-[#2DD4D4] uppercase">42 Strategic KPIs</span>
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black tracking-widest bg-[rgba(45,212,212,0.08)] border border-[rgba(45,212,212,0.2)] text-[#2DD4D4] uppercase">10 Dimensions</span>
+                    </div>
+                </div>
                 <p class="text-brand-muted max-w-3xl font-medium leading-relaxed">
                     An interactive executive guide to the key metrics enabling data-driven HR excellence. 
                     Each KPI is meticulously detailed with its strategic impact, logic, and data dependencies.
@@ -366,7 +432,7 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="${theme.icon}" />
                     </svg>
-                    <div class="absolute -top-1 -right-1 bg-brand-border text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center tabular-nums border border-brand-card">
+                    <div class="sidebar-badge absolute -top-1 -right-1 bg-[#0D1117] text-[#2DD4D4] text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center tabular-nums border border-[rgba(45,212,212,0.4)] transition-all">
                         ${theme.kpis.length}
                     </div>
                     <div class="absolute left-16 bg-brand-card border border-brand-border px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none text-xs font-bold shadow-xl">
@@ -380,35 +446,46 @@
                 const section = document.createElement('div');
                 section.id = theme.id;
                 section.className = 'scroll-mt-24';
+                
+                const liveCount = theme.kpis.filter(k => k.isLive).length;
+                const totalCount = theme.kpis.length;
 
                 const kpisHtml = theme.kpis.map(kpi => {
                     const isVisible = visibleKpis.includes(kpi);
                     const highlight = (text) => term ? text.replace(new RegExp(term, 'gi'), match => `<span class="highlight-match">${match}</span>`) : text;
 
+                    const typeColors = {
+                        Strategic: 'bg-[rgba(45,212,212,0.1)] text-[#2DD4D4] border-[#2DD4D4]/30',
+                        Operational: 'bg-[rgba(168,85,247,0.1)] text-[rgb(168,85,247)] border-[rgb(168,85,247)]/30',
+                        Financial: 'bg-[rgba(245,158,11,0.1)] text-[rgb(245,158,11)] border-[rgb(245,158,11)]/30',
+                        Experience: 'bg-[rgba(236,72,153,0.1)] text-[rgb(236,72,153)] border-[rgb(236,72,153)]/30'
+                    };
+                    const badgeClass = typeColors[kpi.type] || 'bg-brand-cardLight border-brand-border text-brand-muted';
+
                     return `
                     <div class="glass-panel p-6 flex flex-col justify-between kpi-card relative overflow-hidden group/card ${isVisible ? '' : 'hidden'}">
                         ${kpi.isLive ? `
-                            <div class="status-tag absolute top-0 right-0 bg-brand-accent/10 border-l border-b border-brand-accent/20 px-3 py-1 rounded-bl-xl z-10">
-                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-accent">Live on TA Dashboard</span>
+                            <div class="status-tag absolute top-0 right-0 bg-[rgba(45,212,212,0.08)] border-l border-b border-[rgba(45,212,212,0.25)] px-3 py-1 rounded-bl-xl z-10 backdrop-blur-sm">
+                                <span class="text-[9px] font-black uppercase tracking-widest text-[#2DD4D4]">Live on TA Dashboard</span>
                             </div>
                         ` : ''}
                         ${kpi.isPlanned ? `
-                            <div class="status-tag absolute top-0 right-0 bg-brand-cyan/10 border-l border-b border-brand-cyan/20 px-3 py-1 rounded-bl-xl z-10">
-                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-cyan">Planned for Suite</span>
+                            <div class="status-tag absolute top-0 right-0 bg-[rgba(139,148,158,0.08)] border-l border-b border-[rgba(139,148,158,0.2)] px-3 py-1 rounded-bl-xl z-10 backdrop-blur-sm">
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted">Planned for Suite</span>
                             </div>
                         ` : ''}
                         <div>
                             <div class="flex items-center gap-2 mb-4">
                                 <div class="text-[10px] font-black uppercase tracking-[0.2em] text-brand-muted">Strategic KPI</div>
-                                <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase bg-brand-cardLight border border-brand-border text-brand-muted">${kpi.type}</span>
+                                <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase border ${badgeClass}">${kpi.type}</span>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 group-hover/card:text-brand-accent transition-colors">${highlight(kpi.name)}</h3>
+                            <h3 class="text-xl font-bold mb-3 group-hover/card:text-[#2DD4D4] transition-colors">${highlight(kpi.name)}</h3>
                             <p class="purpose-text text-xs text-brand-muted leading-relaxed mb-6 font-medium">${highlight(kpi.purpose)}</p>
                         </div>
                         <div class="details-section space-y-4 pt-4 border-t border-brand-border">
                             <div>
                                 <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted block mb-2">Logic Model</span>
-                                <div class="bg-brand-bg/50 px-3 py-2 rounded-lg text-[11px] font-mono border border-brand-border/50 text-brand-cyan">${highlight(kpi.formula)}</div>
+                                <div class="bg-[#0D1117] px-3 py-2 rounded-r-lg text-[11px] font-mono border-l-4 border-l-[#2DD4D4] text-[#2DD4D4]">${highlight(kpi.formula)}</div>
                             </div>
                             <div>
                                 <span class="text-[9px] font-black uppercase tracking-widest text-brand-muted block mb-2">Data Integrity Requirements</span>
@@ -419,13 +496,22 @@
                 `}).join('');
 
                 section.innerHTML = `
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-12 h-12 rounded-2xl bg-brand-cardLight border border-brand-border flex items-center justify-center">
-                            <svg class="w-6 h-6 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="${theme.icon}" />
-                            </svg>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-[#161B22] shadow-[inset_0_0_0_1px_rgba(45,212,212,0.3)] flex items-center justify-center">
+                                <svg class="w-6 h-6 text-[#2DD4D4]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="${theme.icon}" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-black">${theme.title}</h2>
                         </div>
-                        <h2 class="text-2xl font-black">${theme.title}</h2>
+                        <div class="flex items-center gap-3">
+                            <div class="text-right hidden sm:block">
+                                <div class="text-[9px] font-black tracking-widest text-[#2DD4D4] uppercase">Live KPIs</div>
+                                <div class="text-[10px] text-brand-muted font-bold">${liveCount} of ${totalCount} Active</div>
+                            </div>
+                            ${createProgressRing(liveCount, totalCount)}
+                        </div>
                     </div>
                     <div class="kpi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         ${kpisHtml}
@@ -468,6 +554,31 @@
         searchInput.addEventListener('input', (e) => {
             renderFramework(e.target.value);
         });
+
+        // Heatmap Logic
+        function createHeatmap() {
+            let html = '<div class="grid grid-cols-7 gap-[2px] mb-2">';
+            for(let i=0; i<35; i++) {
+                const op = (Math.random() * 0.85 + 0.05).toFixed(2);
+                html += `<div class="w-1 h-1 rounded-sm bg-[#2DD4D4]" style="opacity: ${op}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+        document.getElementById('heatmapContainer').innerHTML = createHeatmap();
+
+        // Progress Ring Logic
+        function createProgressRing(liveCount, total) {
+            const pct = liveCount / total;
+            const r = 16, c = 2 * Math.PI * r;
+            return `<svg width="40" height="40" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="${r}" fill="none" stroke="#30363D" stroke-width="3"/>
+                <circle cx="20" cy="20" r="${r}" fill="none" stroke="#2DD4D4" stroke-width="3"
+                stroke-dasharray="${c * pct} ${c * (1-pct)}"
+                stroke-dashoffset="${c * 0.25}" stroke-linecap="round"/>
+                <text x="20" y="24" text-anchor="middle" class="fill-[#2DD4D4] text-[9px] font-black">${liveCount}</text>
+            </svg>`;
+        }
 
         // Scrollspy for Sidebar
         const mainContentArea = document.getElementById('frameworkContent');

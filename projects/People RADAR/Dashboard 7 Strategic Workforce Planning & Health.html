@@ -6,23 +6,25 @@
     <title>Dashboard 7: Strategic Workforce Planning & Health</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="design-system.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f8fafc;
+        /* === People RADAR Dark Theme Override === */
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background-color: #0D1117;
+            color: #E6EDF3;
         }
-        .glossy-card { 
-            background-color: white;
+        .glossy-card {
+            background: linear-gradient(135deg, #161B22, #1A2030);
             border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #30363D;
+            color: #E6EDF3;
+            box-shadow: 0 8px 32px -4px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .glossy-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
-        }
+        /* New: hover fill handled by design-system.css */
+        .glossy-card { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
         .text-danger { color: #dc2626; }
         .text-warning { color: #f59e0b; }
         .text-success { color: #16a34a; }
@@ -68,7 +70,7 @@
         }
         .info-tooltip-title {
             font-weight: 700;
-            color: #94a3b8;
+            color: #F59E0B;
             margin-bottom: 4px;
             margin-top: 8px;
             display: block;
@@ -81,7 +83,7 @@
             background-color: #334155;
             padding: 4px 8px;
             border-radius: 4px;
-            color: #e2e8f0;
+            color: #E6EDF3;
             display: block;
         }
         .info-tooltip-purpose {
@@ -91,9 +93,57 @@
         }
     </style>
 </head>
-<body class="text-slate-700">
+<body class="text-slate-700 dark">
 
     <div class="p-4 md:p-8">
+
+<!-- People RADAR Topbar -->
+<div class="flex items-center justify-between px-6 py-3 mb-6 
+    bg-[#161B22] border border-[#30363D] rounded-2xl">
+    
+    <!-- Left: brand + status -->
+    <div class="flex items-center gap-4">
+        <a href="KPI_index_glossy.html" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-[#0D1117] border border-[#2DD4D4] 
+                shadow-[0_0_8px_rgba(45,212,212,0.4)] flex items-center justify-center">
+                <svg class="w-4 h-4 text-[#2DD4D4]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93V4.07C7.06 4.57 4 7.95 4 12s3.06 7.43 7 7.93zm2 0C16.94 19.43 20 16.05 20 12s-3.06-7.43-7-7.93v15.86z"/>
+                </svg>
+            </div>
+            <span class="font-black text-sm text-[#E6EDF3]">People <span class="text-[#2DD4D4]">RADAR</span></span>
+        </a>
+        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full 
+            bg-[rgba(45,212,212,0.08)] border border-[rgba(45,212,212,0.25)]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4D4] animate-pulse"></span>
+            <span class="text-[10px] font-black tracking-widest text-[#2DD4D4]">SYSTEM:LIVE</span>
+        </div>
+    </div>
+    
+    <!-- Right: team avatars + user -->
+    <div class="flex items-center gap-4">
+        <div class="hidden md:flex flex-col items-end mr-2 pr-4 border-r border-[#30363D]">
+            <div class="flex -space-x-2 mb-1">
+                <img class="w-7 h-7 rounded-full ring-2 ring-[#0D1117] object-cover" 
+                     src="https://i.pravatar.cc/100?img=1" alt="">
+                <img class="w-7 h-7 rounded-full ring-2 ring-[#0D1117] object-cover" 
+                     src="https://i.pravatar.cc/100?img=2" alt="">
+                <img class="w-7 h-7 rounded-full ring-2 ring-[#0D1117] object-cover" 
+                     src="https://i.pravatar.cc/100?img=3" alt="">
+                <div class="w-7 h-7 rounded-full ring-2 ring-[#0D1117] bg-[#1E242C] 
+                     flex items-center justify-center text-[9px] font-bold text-[#E6EDF3]">+12</div>
+            </div>
+            <span class="text-[8px] font-black tracking-widest text-[#8B949E] uppercase">GLOBAL HR TEAM ACTIVE</span>
+        </div>
+        <button class="hidden sm:block bg-[#2DD4D4] text-[#0D1117] font-black 
+            rounded-full px-3 py-1.5 text-[11px] 
+            hover:bg-[#25BEBE] hover:shadow-[0_0_12px_rgba(45,212,212,0.4)] transition-all">
+            + ADD ANALYSIS
+        </button>
+        <img src="https://i.pravatar.cc/100?img=33" alt="Noah Brooks" 
+             class="w-9 h-9 rounded-full object-cover ring-2 ring-[#2DD4D4]">
+    </div>
+</div>
+
         <!-- Dashboard Header -->
         <header class="mb-8">
             <h1 class="text-3xl font-bold text-slate-900">Strategic Workforce Planning & Health</h1>
@@ -222,12 +272,39 @@
         </div>
     </div>
 
-    <script>
+    
+<script>
+    // People RADAR Dark Theme — Chart.js Global Defaults
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof Chart !== 'undefined') {
+            Chart.defaults.color = '#8B949E';
+            Chart.defaults.borderColor = '#30363D';
+            Chart.defaults.backgroundColor = 'transparent';
+            // Update any existing chart instances
+            Object.values(Chart.instances || {}).forEach(chart => {
+                if (chart.config.options) {
+                    if (!chart.config.options.plugins) chart.config.options.plugins = {};
+                    if (!chart.config.options.plugins.legend) chart.config.options.plugins.legend = {};
+                    chart.config.options.plugins.legend.labels = { color: '#8B949E' };
+                    if (chart.config.options.scales) {
+                        Object.values(chart.config.options.scales).forEach(scale => {
+                            scale.ticks = { ...(scale.ticks||{}), color: '#8B949E' };
+                            scale.grid = { ...(scale.grid||{}), color: '#30363D' };
+                        });
+                    }
+                }
+                chart.update();
+            });
+        }
+    });
+</script>
+
+<script>
         const chartJSConfig = {
             plugins: { legend: { display: false } },
             scales: {
-                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
-                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+                y: { ticks: { color: '#8B949E' }, grid: { color: '#30363D' } },
+                x: { ticks: { color: '#8B949E' }, grid: { display: false } }
             },
             maintainAspectRatio: false
         };
@@ -240,15 +317,15 @@
                 datasets: [{
                     label: 'Actual Headcount',
                     data: [2500, 2550, 2650, 2700],
-                    borderColor: '#0ea5e9',
-                    backgroundColor: '#0ea5e9',
+                    borderColor: '#2DD4D4',
+                    backgroundColor: '#2DD4D4',
                     tension: 0.1,
                     fill: false
                 }, {
                     label: 'Forecasted Headcount',
                     data: [2520, 2610, 2620, 2800],
-                    borderColor: '#94a3b8',
-                    backgroundColor: '#94a3b8',
+                    borderColor: '#F59E0B',
+                    backgroundColor: '#F59E0B',
                     borderDash: [5, 5],
                     tension: 0.1,
                     fill: false

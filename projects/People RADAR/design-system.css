@@ -1,0 +1,340 @@
+/* ============================================
+   People RADAR Design System v1.0
+   Cyan Dark Theme — Screenshot 1 Reference
+   ============================================ */
+
+/* === Font === */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* === Color Tokens: Light === */
+:root {
+    --brand-bg: #f8f9fa;
+    --brand-card: #ffffff;
+    --brand-card-light: #f1f3f5;
+    --brand-border: #dee2e6;
+    --brand-text: #1a1c1e;
+    --brand-muted: #64748b;
+    --brand-accent: #10b981;
+    --brand-accent-soft: #ecfdf5;
+    --brand-accent-dark: #064e3b;
+    --brand-accent-glow: rgba(16,185,129,0.25);
+    --brand-cyan: #06b6d4;
+    --brand-cyan-soft: #ecfeff;
+    color-scheme: light;
+}
+
+/* === Color Tokens: Dark (Cyan System) === */
+.dark {
+    --brand-bg: #0D1117;
+    --brand-card: #161B22;
+    --brand-card-light: #1E242C;
+    --brand-border: #30363D;
+    --brand-text: #E6EDF3;
+    --brand-muted: #8B949E;
+    --brand-accent: #2DD4D4;
+    --brand-accent-soft: rgba(45, 212, 212, 0.10);
+    --brand-accent-dark: #0A3030;
+    --brand-accent-glow: rgba(45, 212, 212, 0.25);
+    --brand-cyan: #2DD4D4;
+    --brand-cyan-soft: rgba(45, 212, 212, 0.10);
+    color-scheme: dark;
+}
+
+/* === Global Body === */
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    background-color: var(--brand-bg);
+    color: var(--brand-text);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* === Glass Panel (Group A) === */
+.glass-panel {
+    background-color: var(--brand-card);
+    border: 1px solid var(--brand-border);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px -4px rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dark .glass-panel {
+    background: linear-gradient(135deg, #161B22, #1A2030);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px -4px rgba(0,0,0,0.4);
+}
+
+/* === Glossy Card Dark Override (Group B) === */
+.dark .glossy-card {
+    background: linear-gradient(135deg, #161B22, #1A2030) !important;
+    border-color: #30363D !important;
+    color: #E6EDF3 !important;
+    box-shadow: 0 8px 32px -4px rgba(0,0,0,0.4) !important;
+}
+.dark .glossy-card:hover {
+    border-color: rgba(45,212,212,0.45) !important;
+    box-shadow:
+        0 0 0 1px rgba(45,212,212,0.2),
+        0 0 24px rgba(45,212,212,0.08),
+        0 8px 32px rgba(0,0,0,0.5) !important;
+}
+
+/* === KPI Card === */
+.kpi-card { transition: all 0.2s ease; }
+.kpi-card:hover {
+    border-color: rgba(45,212,212,0.45);
+    background-color: var(--brand-card-light);
+    box-shadow:
+        0 0 0 1px rgba(45,212,212,0.2),
+        0 0 24px rgba(45,212,212,0.08),
+        0 8px 32px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
+}
+.card-glow-active {
+    border-color: rgba(45,212,212,0.45);
+    box-shadow:
+        0 0 0 1px rgba(45,212,212,0.2),
+        0 0 24px rgba(45,212,212,0.08),
+        0 8px 32px rgba(0,0,0,0.5);
+}
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 20%;
+    height: 60%; width: 2px;
+    background: linear-gradient(to bottom, transparent, #2DD4D4, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.kpi-card:hover::before { opacity: 1; }
+
+/* === Navigation Active State === */
+.nav-active {
+    background-color: rgba(45,212,212,0.08);
+    color: var(--brand-text);
+}
+.nav-active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 25%;
+    height: 50%; width: 4px;
+    background-color: #2DD4D4;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 8px rgba(45,212,212,0.5);
+}
+.nav-active .sidebar-badge { box-shadow: 0 0 8px rgba(45,212,212,0.4); }
+
+/* === Search Highlight === */
+.highlight-match {
+    background-color: rgba(45,212,212,0.2);
+    color: #2DD4D4;
+    font-weight: bold;
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+/* === Input Focus === */
+input:focus {
+    border-color: #2DD4D4 !important;
+    box-shadow: 0 0 0 3px rgba(45,212,212,0.12) !important;
+    outline: none;
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #2DD4D4, #1A9090);
+    border-radius: 10px;
+}
+
+/* === Tabular Numbers === */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* === Tooltip Dark Override (Group B) === */
+.dark .info-tooltip {
+    background-color: #1E242C !important;
+    border: 1px solid #30363D;
+    color: #E6EDF3 !important;
+}
+.dark .info-tooltip::after {
+    border-color: #1E242C transparent transparent transparent !important;
+}
+
+/* === Status Text Colors Dark === */
+.dark .text-danger  { color: #f87171 !important; }
+.dark .text-warning { color: #fbbf24 !important; }
+.dark .text-success { color: #2DD4D4 !important; }
+
+/* === Tailwind Utility Overrides in Dark (Group B) === */
+.dark .bg-white        { background-color: #161B22 !important; }
+.dark .bg-gray-50,
+.dark .bg-slate-50     { background-color: #0D1117 !important; }
+.dark .bg-gray-100,
+.dark .bg-slate-100    { background-color: #1E242C !important; }
+.dark .bg-gray-200,
+.dark .bg-slate-200    { background-color: #1E242C !important; }
+.dark .border-gray-200,
+.dark .border-slate-200{ border-color: #30363D !important; }
+.dark .border-gray-100,
+.dark .border-slate-300{ border-color: #30363D !important; }
+.dark .text-gray-900, .dark .text-slate-900,
+.dark .text-gray-800, .dark .text-slate-800,
+.dark .text-gray-700, .dark .text-slate-700   { color: #E6EDF3 !important; }
+.dark .text-gray-600, .dark .text-slate-600,
+.dark .text-gray-500, .dark .text-slate-500   { color: #8B949E !important; }
+.dark .text-gray-400, .dark .text-slate-400   { color: #8B949E !important; }
+
+/* === Table Dark Override === */
+.dark table  { color: #E6EDF3; }
+.dark thead  { background-color: #1E242C !important; color: #8B949E !important; }
+.dark tbody tr          { border-color: #30363D !important; }
+.dark tbody tr:hover    { background-color: rgba(45,212,212,0.04) !important; }
+.dark td, .dark th      { border-color: #30363D !important; color: #E6EDF3 !important; }
+
+
+/* ============================================
+   Hover Fill Effect System v2.0
+   Inspired by Screenshot 1 (HRadar Premium card)
+   ============================================ */
+
+/* === 1. Card Full-Fill Hover: Dark Mode === */
+
+/* Remove the left glow bar when card fills */
+.dark .kpi-card:hover::before,
+.dark .glass-panel:hover::before {
+    opacity: 0 !important;
+}
+
+/* Main fill */
+.dark .glass-panel:hover,
+.dark .kpi-card:hover {
+    background: linear-gradient(135deg, #2DD4D4 0%, #0E8B8B 55%, #065C5C 100%) !important;
+    border-color: rgba(6,92,92,0.3) !important;
+    box-shadow:
+        0 24px 60px rgba(45,212,212,0.3),
+        0 0 0 1px rgba(45,212,212,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.15) !important;
+    transform: translateY(-4px) scale(1.005) !important;
+}
+
+/* Text cascade to dark */
+.dark .glass-panel:hover *,
+.dark .kpi-card:hover * {
+    color: #062020 !important;
+    border-color: rgba(6,32,32,0.18) !important;
+}
+
+/* SVG paths */
+.dark .glass-panel:hover svg,
+.dark .kpi-card:hover svg {
+    color: #062020 !important;
+}
+.dark .glass-panel:hover svg path,
+.dark .kpi-card:hover svg path,
+.dark .glass-panel:hover svg circle,
+.dark .kpi-card:hover svg circle {
+    stroke: #062020 !important;
+    fill: none !important;
+}
+
+/* Inner background elements (formula block, badges) */
+.dark .kpi-card:hover [class*="font-mono"],
+.dark .glass-panel:hover [class*="font-mono"] {
+    background: rgba(6,32,32,0.15) !important;
+}
+
+/* === 2. Card Full-Fill Hover: Light Mode === */
+.glass-panel:hover,
+.kpi-card:hover {
+    background: linear-gradient(135deg, #E0FFFE 0%, #A8EDE8 55%, #7DD8D0 100%) !important;
+    border-color: rgba(10,130,120,0.4) !important;
+    box-shadow:
+        0 16px 48px rgba(10,180,160,0.2),
+        0 0 0 1px rgba(10,180,160,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.6) !important;
+    transform: translateY(-3px) scale(1.003) !important;
+}
+.glass-panel:hover *,
+.kpi-card:hover * {
+    color: #062020 !important;
+    border-color: rgba(6,32,32,0.18) !important;
+}
+.glass-panel:hover svg path,
+.kpi-card:hover svg path {
+    stroke: #062020 !important;
+}
+.kpi-card:hover::before,
+.glass-panel:hover::before {
+    opacity: 0 !important;
+}
+
+/* === 3. Glossy Card Full-Fill Hover: Dark Mode (Group B override) === */
+.dark .glossy-card:hover {
+    background: linear-gradient(135deg, #2DD4D4 0%, #0E8B8B 55%, #065C5C 100%) !important;
+    border-color: rgba(6,92,92,0.3) !important;
+    box-shadow:
+        0 24px 60px rgba(45,212,212,0.3),
+        0 0 0 1px rgba(45,212,212,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.15) !important;
+    transform: translateY(-4px) scale(1.005) !important;
+}
+.dark .glossy-card:hover * {
+    color: #062020 !important;
+    border-color: rgba(6,32,32,0.18) !important;
+}
+
+/* === 4. Glossy Card Full-Fill Hover: Light Mode (Group B override) === */
+.glossy-card:hover {
+    background: linear-gradient(135deg, #E0FFFE 0%, #A8EDE8 55%, #7DD8D0 100%) !important;
+    border-color: rgba(10,130,120,0.4) !important;
+    box-shadow:
+        0 16px 48px rgba(10,180,160,0.2),
+        0 0 0 1px rgba(10,180,160,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.6) !important;
+    transform: translateY(-3px) !important;
+}
+.glossy-card:hover * {
+    color: #062020 !important;
+    border-color: rgba(6,32,32,0.18) !important;
+}
+
+/* === 5. Sidebar Nav Item Hover === */
+/* Dark mode sidebar */
+.dark .theme-nav-item:hover {
+    background: linear-gradient(135deg, rgba(45,212,212,0.18), rgba(45,212,212,0.06)) !important;
+    border-radius: 0.75rem;
+    color: #2DD4D4 !important;
+}
+.dark aside a:not(.logo-btn):hover,
+.dark aside nav div.rounded-xl:hover {
+    background: linear-gradient(135deg, rgba(45,212,212,0.18), rgba(45,212,212,0.06)) !important;
+    color: #2DD4D4 !important;
+}
+.dark .theme-nav-item:hover svg,
+.dark aside a:hover svg {
+    color: #2DD4D4 !important;
+}
+/* Light mode sidebar */
+.theme-nav-item:hover {
+    background: linear-gradient(135deg, rgba(10,160,140,0.14), rgba(10,160,140,0.04)) !important;
+    color: #0A8080 !important;
+}
+aside a:not(.logo-btn):hover,
+aside nav div.rounded-xl:hover {
+    background: linear-gradient(135deg, rgba(10,160,140,0.14), rgba(10,160,140,0.04)) !important;
+    color: #0A8080 !important;
+}
+
+/* === 6. Primary Button (ADD ANALYSIS) Enhanced Hover === */
+/* Dark mode */
+.dark .bg-\[\#2DD4D4\]:hover {
+    background-color: #0D8888 !important;
+    box-shadow: 0 0 28px rgba(45,212,212,0.55), 0 8px 20px rgba(45,212,212,0.3) !important;
+    transform: scale(1.06) translateY(-1px) !important;
+}
+/* Light mode */
+.bg-\[\#2DD4D4\]:hover {
+    background-color: #0A9090 !important;
+    box-shadow: 0 0 20px rgba(10,180,160,0.4), 0 6px 16px rgba(10,180,160,0.2) !important;
+    transform: scale(1.06) translateY(-1px) !important;
+}
