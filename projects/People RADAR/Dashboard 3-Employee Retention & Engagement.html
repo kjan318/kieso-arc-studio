@@ -12,17 +12,10 @@
         /* === People RADAR Dark Theme Override === */
         body {
             font-family: "Plus Jakarta Sans", sans-serif;
-            background-color: #0D1117;
-            color: #E6EDF3;
+            background-color: var(--brand-bg);
+            color: var(--brand-text);
         }
-        .glossy-card {
-            background: linear-gradient(135deg, #161B22, #1A2030);
-            border-radius: 0.75rem;
-            border: 1px solid #30363D;
-            color: #E6EDF3;
-            box-shadow: 0 8px 32px -4px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
+        .glossy-card { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
         /* New: hover fill handled by design-system.css */
         .glossy-card { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
         .text-danger { color: #dc2626; }
@@ -93,35 +86,35 @@
         }
     </style>
 </head>
-<body class="text-slate-700 dark">
+<body class="text-slate-700">
 
     <div class="p-4 md:p-8">
 
 <!-- People RADAR Topbar -->
 <div class="flex items-center justify-between px-6 py-3 mb-6 
-    bg-[#161B22] border border-[#30363D] rounded-2xl">
+    bg-white dark:bg-[#161B22] border border-slate-200 dark:border-[#30363D] rounded-2xl">
     
     <!-- Left: brand + status -->
     <div class="flex items-center gap-4">
         <a href="KPI_index_glossy.html" class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-[#0D1117] border border-[#2DD4D4] 
-                shadow-[0_0_8px_rgba(45,212,212,0.4)] flex items-center justify-center">
-                <svg class="w-4 h-4 text-[#2DD4D4]" fill="currentColor" viewBox="0 0 24 24">
+            <div class="w-8 h-8 rounded-full bg-[#0D1117] border border-[#38bdf8] 
+                shadow-[0_0_8px_rgba(56,189,248,0.4)] flex items-center justify-center">
+                <svg class="w-4 h-4 text-[#38bdf8]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93V4.07C7.06 4.57 4 7.95 4 12s3.06 7.43 7 7.93zm2 0C16.94 19.43 20 16.05 20 12s-3.06-7.43-7-7.93v15.86z"/>
                 </svg>
             </div>
-            <span class="font-black text-sm text-[#E6EDF3]">People <span class="text-[#2DD4D4]">RADAR</span></span>
+            <span class="font-black text-sm text-[#E6EDF3]">People <span class="text-[#38bdf8]">RADAR</span></span>
         </a>
         <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full 
-            bg-[rgba(45,212,212,0.08)] border border-[rgba(45,212,212,0.25)]">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#2DD4D4] animate-pulse"></span>
-            <span class="text-[10px] font-black tracking-widest text-[#2DD4D4]">SYSTEM:LIVE</span>
+            bg-[rgba(56,189,248,0.08)] border border-[rgba(56,189,248,0.25)]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse"></span>
+            <span class="text-[10px] font-black tracking-widest text-[#38bdf8]">SYSTEM:LIVE</span>
         </div>
     </div>
     
     <!-- Right: team avatars + user -->
     <div class="flex items-center gap-4">
-        <div class="hidden md:flex flex-col items-end mr-2 pr-4 border-r border-[#30363D]">
+        <div class="hidden md:flex flex-col items-end mr-2 pr-4 border-r border-slate-200 dark:border-[#30363D]">
             <div class="flex -space-x-2 mb-1">
                 <img class="w-7 h-7 rounded-full ring-2 ring-[#0D1117] object-cover" 
                      src="https://i.pravatar.cc/100?img=1" alt="">
@@ -134,13 +127,23 @@
             </div>
             <span class="text-[8px] font-black tracking-widest text-[#8B949E] uppercase">GLOBAL HR TEAM ACTIVE</span>
         </div>
-        <button class="hidden sm:block bg-[#2DD4D4] text-[#0D1117] font-black 
+        <button class="hidden sm:block bg-[#38bdf8] text-[#0D1117] font-black 
             rounded-full px-3 py-1.5 text-[11px] 
-            hover:bg-[#25BEBE] hover:shadow-[0_0_12px_rgba(45,212,212,0.4)] transition-all">
+            hover:bg-[#0284c7] hover:shadow-[0_0_12px_rgba(56,189,248,0.4)] transition-all">
             + ADD ANALYSIS
         </button>
-        <img src="https://i.pravatar.cc/100?img=33" alt="Noah Brooks" 
-             class="w-9 h-9 rounded-full object-cover ring-2 ring-[#2DD4D4]">
+        <button id="themeToggle" class="w-9 h-9 rounded-full bg-[#161B22] dark:bg-[#161B22] bg-white border border-[#30363D] dark:border-[#30363D] border-slate-200 flex items-center justify-center transition-all">
+    <!-- Sun (shown in dark mode) -->
+    <svg class="w-4 h-4 text-[#E6EDF3] hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.364 17.636l-.707.707M6.364 6.364l.707.707m10.607 10.607l.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <!-- Moon (shown in light mode) -->
+    <svg class="w-4 h-4 text-slate-700 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+</button>
+<img src="https://i.pravatar.cc/100?img=33" alt="Noah Brooks" 
+             class="w-9 h-9 rounded-full object-cover ring-2 ring-[#38bdf8]">
     </div>
 </div>
 
@@ -274,12 +277,37 @@
 
     
 <script>
+
+// Dynamic Chart.js defaults
+function updateChartDefaults() {
+    const isDark = document.body.classList.contains('dark');
+    if (typeof Chart !== 'undefined') {
+        Chart.defaults.color = isDark ? '#8B949E' : '#475569';
+        Chart.defaults.borderColor = isDark ? '#30363D' : '#e2e8f0';
+        Chart.defaults.backgroundColor = 'transparent';
+    }
+}
+
+// Theme Management
+(function() {
+    const body = document.body;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    savedTheme === 'dark' ? body.classList.add('dark') : body.classList.remove('dark');
+    updateChartDefaults();
+
+    document.getElementById('themeToggle')?.addEventListener('click', function() {
+        body.classList.toggle('dark');
+        localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        updateChartDefaults();
+    });
+})();
+
     // People RADAR Dark Theme — Chart.js Global Defaults
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof Chart !== 'undefined') {
-            Chart.defaults.color = '#8B949E';
-            Chart.defaults.borderColor = '#30363D';
-            Chart.defaults.backgroundColor = 'transparent';
+            
+            
+            
             // Update any existing chart instances
             Object.values(Chart.instances || {}).forEach(chart => {
                 if (chart.config.options) {

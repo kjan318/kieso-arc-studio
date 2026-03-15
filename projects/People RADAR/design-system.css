@@ -14,12 +14,12 @@
     --brand-border: #dee2e6;
     --brand-text: #1a1c1e;
     --brand-muted: #64748b;
-    --brand-accent: #10b981;
-    --brand-accent-soft: #ecfdf5;
-    --brand-accent-dark: #064e3b;
-    --brand-accent-glow: rgba(16,185,129,0.25);
-    --brand-cyan: #06b6d4;
-    --brand-cyan-soft: #ecfeff;
+    --brand-accent: #0ea5e9;
+    --brand-accent-soft: rgba(14,165,233,0.10);
+    --brand-accent-dark: #082840;
+    --brand-accent-glow: rgba(14,165,233,0.25);
+    --brand-cyan: #0ea5e9;
+    --brand-cyan-soft: rgba(14,165,233,0.10);
     color-scheme: light;
 }
 
@@ -31,12 +31,12 @@
     --brand-border: #30363D;
     --brand-text: #E6EDF3;
     --brand-muted: #8B949E;
-    --brand-accent: #2DD4D4;
-    --brand-accent-soft: rgba(45, 212, 212, 0.10);
-    --brand-accent-dark: #0A3030;
-    --brand-accent-glow: rgba(45, 212, 212, 0.25);
-    --brand-cyan: #2DD4D4;
-    --brand-cyan-soft: rgba(45, 212, 212, 0.10);
+    --brand-accent: #38bdf8;
+    --brand-accent-soft: rgba(56, 189, 248, 0.15);
+    --brand-accent-dark: #0c2040;
+    --brand-accent-glow: rgba(56, 189, 248, 0.25);
+    --brand-cyan: #38bdf8;
+    --brand-cyan-soft: rgba(56, 189, 248, 0.15);
     color-scheme: dark;
 }
 
@@ -71,29 +71,40 @@ body {
     box-shadow: 0 8px 32px -4px rgba(0,0,0,0.4) !important;
 }
 .dark .glossy-card:hover {
-    border-color: rgba(45,212,212,0.45) !important;
+    border-color: rgba(56,189,248,0.45) !important;
     box-shadow:
-        0 0 0 1px rgba(45,212,212,0.2),
-        0 0 24px rgba(45,212,212,0.08),
+        0 0 0 1px rgba(56,189,248,0.2),
+        0 0 24px rgba(56,189,248,0.08),
         0 8px 32px rgba(0,0,0,0.5) !important;
+}
+
+
+/* === Glossy Card Light Mode Base (Group B) === */
+.glossy-card {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    border: 1px solid var(--brand-border);
+    color: var(--brand-text);
+    box-shadow: 0 8px 32px -4px rgba(0,0,0,0.08);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* === KPI Card === */
 .kpi-card { transition: all 0.2s ease; }
 .kpi-card:hover {
-    border-color: rgba(45,212,212,0.45);
+    border-color: rgba(56,189,248,0.45);
     background-color: var(--brand-card-light);
     box-shadow:
-        0 0 0 1px rgba(45,212,212,0.2),
-        0 0 24px rgba(45,212,212,0.08),
+        0 0 0 1px rgba(56,189,248,0.2),
+        0 0 24px rgba(56,189,248,0.08),
         0 8px 32px rgba(0,0,0,0.5);
     transform: translateY(-2px);
 }
 .card-glow-active {
-    border-color: rgba(45,212,212,0.45);
+    border-color: rgba(56,189,248,0.45);
     box-shadow:
-        0 0 0 1px rgba(45,212,212,0.2),
-        0 0 24px rgba(45,212,212,0.08),
+        0 0 0 1px rgba(56,189,248,0.2),
+        0 0 24px rgba(56,189,248,0.08),
         0 8px 32px rgba(0,0,0,0.5);
 }
 .kpi-card::before {
@@ -101,7 +112,7 @@ body {
     position: absolute;
     left: 0; top: 20%;
     height: 60%; width: 2px;
-    background: linear-gradient(to bottom, transparent, #2DD4D4, transparent);
+    background: linear-gradient(to bottom, transparent, #38bdf8, transparent);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -109,7 +120,7 @@ body {
 
 /* === Navigation Active State === */
 .nav-active {
-    background-color: rgba(45,212,212,0.08);
+    background-color: rgba(56,189,248,0.08);
     color: var(--brand-text);
 }
 .nav-active::before {
@@ -117,16 +128,16 @@ body {
     position: absolute;
     left: 0; top: 25%;
     height: 50%; width: 4px;
-    background-color: #2DD4D4;
+    background-color: #38bdf8;
     border-radius: 0 4px 4px 0;
-    box-shadow: 0 0 8px rgba(45,212,212,0.5);
+    box-shadow: 0 0 8px rgba(56,189,248,0.5);
 }
-.nav-active .sidebar-badge { box-shadow: 0 0 8px rgba(45,212,212,0.4); }
+.nav-active .sidebar-badge { box-shadow: 0 0 8px rgba(56,189,248,0.4); }
 
 /* === Search Highlight === */
 .highlight-match {
-    background-color: rgba(45,212,212,0.2);
-    color: #2DD4D4;
+    background-color: rgba(56,189,248,0.2);
+    color: #38bdf8;
     font-weight: bold;
     border-radius: 2px;
     padding: 0 2px;
@@ -134,8 +145,8 @@ body {
 
 /* === Input Focus === */
 input:focus {
-    border-color: #2DD4D4 !important;
-    box-shadow: 0 0 0 3px rgba(45,212,212,0.12) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.12) !important;
     outline: none;
 }
 
@@ -143,7 +154,7 @@ input:focus {
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #2DD4D4, #1A9090);
+    background: linear-gradient(to bottom, #38bdf8, #0369a1);
     border-radius: 10px;
 }
 
@@ -163,7 +174,7 @@ input:focus {
 /* === Status Text Colors Dark === */
 .dark .text-danger  { color: #f87171 !important; }
 .dark .text-warning { color: #fbbf24 !important; }
-.dark .text-success { color: #2DD4D4 !important; }
+.dark .text-success { color: #38bdf8 !important; }
 
 /* === Tailwind Utility Overrides in Dark (Group B) === */
 .dark .bg-white        { background-color: #161B22 !important; }
@@ -188,7 +199,7 @@ input:focus {
 .dark table  { color: #E6EDF3; }
 .dark thead  { background-color: #1E242C !important; color: #8B949E !important; }
 .dark tbody tr          { border-color: #30363D !important; }
-.dark tbody tr:hover    { background-color: rgba(45,212,212,0.04) !important; }
+.dark tbody tr:hover    { background-color: rgba(56,189,248,0.04) !important; }
 .dark td, .dark th      { border-color: #30363D !important; color: #E6EDF3 !important; }
 
 
@@ -208,11 +219,11 @@ input:focus {
 /* Main fill */
 .dark .glass-panel:hover,
 .dark .kpi-card:hover {
-    background: linear-gradient(135deg, #2DD4D4 0%, #0E8B8B 55%, #065C5C 100%) !important;
-    border-color: rgba(6,92,92,0.3) !important;
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 55%, #0c4a6e 100%) !important;
+    border-color: rgba(12,74,110,0.3) !important;
     box-shadow:
-        0 24px 60px rgba(45,212,212,0.3),
-        0 0 0 1px rgba(45,212,212,0.4),
+        0 24px 60px rgba(56,189,248,0.3),
+        0 0 0 1px rgba(56,189,248,0.4),
         inset 0 1px 0 rgba(255,255,255,0.15) !important;
     transform: translateY(-4px) scale(1.005) !important;
 }
@@ -220,48 +231,48 @@ input:focus {
 /* Text cascade to dark */
 .dark .glass-panel:hover *,
 .dark .kpi-card:hover * {
-    color: #062020 !important;
-    border-color: rgba(6,32,32,0.18) !important;
+    color: #0c2040 !important;
+    border-color: rgba(12,32,64,0.18) !important;
 }
 
 /* SVG paths */
 .dark .glass-panel:hover svg,
 .dark .kpi-card:hover svg {
-    color: #062020 !important;
+    color: #0c2040 !important;
 }
 .dark .glass-panel:hover svg path,
 .dark .kpi-card:hover svg path,
 .dark .glass-panel:hover svg circle,
 .dark .kpi-card:hover svg circle {
-    stroke: #062020 !important;
+    stroke: #0c2040 !important;
     fill: none !important;
 }
 
 /* Inner background elements (formula block, badges) */
 .dark .kpi-card:hover [class*="font-mono"],
 .dark .glass-panel:hover [class*="font-mono"] {
-    background: rgba(6,32,32,0.15) !important;
+    background: rgba(12,32,64,0.15) !important;
 }
 
 /* === 2. Card Full-Fill Hover: Light Mode === */
 .glass-panel:hover,
 .kpi-card:hover {
-    background: linear-gradient(135deg, #E0FFFE 0%, #A8EDE8 55%, #7DD8D0 100%) !important;
-    border-color: rgba(10,130,120,0.4) !important;
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 55%, #7dd3fc 100%) !important;
+    border-color: rgba(125,211,252,0.4) !important;
     box-shadow:
-        0 16px 48px rgba(10,180,160,0.2),
-        0 0 0 1px rgba(10,180,160,0.3),
+        0 16px 48px rgba(186,230,253,0.2),
+        0 0 0 1px rgba(125,211,252,0.3),
         inset 0 1px 0 rgba(255,255,255,0.6) !important;
     transform: translateY(-3px) scale(1.003) !important;
 }
 .glass-panel:hover *,
 .kpi-card:hover * {
-    color: #062020 !important;
-    border-color: rgba(6,32,32,0.18) !important;
+    color: #0c2040 !important;
+    border-color: rgba(12,32,64,0.18) !important;
 }
 .glass-panel:hover svg path,
 .kpi-card:hover svg path {
-    stroke: #062020 !important;
+    stroke: #0c2040 !important;
 }
 .kpi-card:hover::before,
 .glass-panel:hover::before {
@@ -270,71 +281,143 @@ input:focus {
 
 /* === 3. Glossy Card Full-Fill Hover: Dark Mode (Group B override) === */
 .dark .glossy-card:hover {
-    background: linear-gradient(135deg, #2DD4D4 0%, #0E8B8B 55%, #065C5C 100%) !important;
-    border-color: rgba(6,92,92,0.3) !important;
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 55%, #0c4a6e 100%) !important;
+    border-color: rgba(12,74,110,0.3) !important;
     box-shadow:
-        0 24px 60px rgba(45,212,212,0.3),
-        0 0 0 1px rgba(45,212,212,0.4),
+        0 24px 60px rgba(56,189,248,0.3),
+        0 0 0 1px rgba(56,189,248,0.4),
         inset 0 1px 0 rgba(255,255,255,0.15) !important;
     transform: translateY(-4px) scale(1.005) !important;
 }
 .dark .glossy-card:hover * {
-    color: #062020 !important;
-    border-color: rgba(6,32,32,0.18) !important;
+    color: #0c2040 !important;
+    border-color: rgba(12,32,64,0.18) !important;
 }
 
 /* === 4. Glossy Card Full-Fill Hover: Light Mode (Group B override) === */
 .glossy-card:hover {
-    background: linear-gradient(135deg, #E0FFFE 0%, #A8EDE8 55%, #7DD8D0 100%) !important;
-    border-color: rgba(10,130,120,0.4) !important;
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 55%, #7dd3fc 100%) !important;
+    border-color: rgba(125,211,252,0.4) !important;
     box-shadow:
-        0 16px 48px rgba(10,180,160,0.2),
-        0 0 0 1px rgba(10,180,160,0.3),
+        0 16px 48px rgba(186,230,253,0.2),
+        0 0 0 1px rgba(125,211,252,0.3),
         inset 0 1px 0 rgba(255,255,255,0.6) !important;
     transform: translateY(-3px) !important;
 }
 .glossy-card:hover * {
-    color: #062020 !important;
-    border-color: rgba(6,32,32,0.18) !important;
+    color: #0c2040 !important;
+    border-color: rgba(12,32,64,0.18) !important;
 }
 
 /* === 5. Sidebar Nav Item Hover === */
 /* Dark mode sidebar */
 .dark .theme-nav-item:hover {
-    background: linear-gradient(135deg, rgba(45,212,212,0.18), rgba(45,212,212,0.06)) !important;
+    background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(56,189,248,0.06)) !important;
     border-radius: 0.75rem;
-    color: #2DD4D4 !important;
+    color: #38bdf8 !important;
 }
 .dark aside a:not(.logo-btn):hover,
 .dark aside nav div.rounded-xl:hover {
-    background: linear-gradient(135deg, rgba(45,212,212,0.18), rgba(45,212,212,0.06)) !important;
-    color: #2DD4D4 !important;
+    background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(56,189,248,0.06)) !important;
+    color: #38bdf8 !important;
 }
 .dark .theme-nav-item:hover svg,
 .dark aside a:hover svg {
-    color: #2DD4D4 !important;
+    color: #38bdf8 !important;
 }
 /* Light mode sidebar */
 .theme-nav-item:hover {
-    background: linear-gradient(135deg, rgba(10,160,140,0.14), rgba(10,160,140,0.04)) !important;
-    color: #0A8080 !important;
+    background: linear-gradient(135deg, rgba(14,165,233,0.14), rgba(14,165,233,0.04)) !important;
+    color: #0284c7 !important;
 }
 aside a:not(.logo-btn):hover,
 aside nav div.rounded-xl:hover {
-    background: linear-gradient(135deg, rgba(10,160,140,0.14), rgba(10,160,140,0.04)) !important;
-    color: #0A8080 !important;
+    background: linear-gradient(135deg, rgba(14,165,233,0.14), rgba(14,165,233,0.04)) !important;
+    color: #0284c7 !important;
 }
+
 
 /* === 6. Primary Button (ADD ANALYSIS) Enhanced Hover === */
 /* Dark mode */
+.dark .bg-\[\#38bdf8\]:hover,
 .dark .bg-\[\#2DD4D4\]:hover {
-    background-color: #0D8888 !important;
-    box-shadow: 0 0 28px rgba(45,212,212,0.55), 0 8px 20px rgba(45,212,212,0.3) !important;
+    background-color: #0284c7 !important;
+    box-shadow: 0 0 28px rgba(56,189,248,0.55), 0 8px 20px rgba(56,189,248,0.3) !important;
     transform: scale(1.06) translateY(-1px) !important;
 }
 /* Light mode */
+.bg-\[\#38bdf8\]:hover,
+.bg-\[\#0ea5e9\]:hover,
 .bg-\[\#2DD4D4\]:hover {
-    background-color: #0A9090 !important;
-    box-shadow: 0 0 20px rgba(10,180,160,0.4), 0 6px 16px rgba(10,180,160,0.2) !important;
+    background-color: #0284c7 !important;
+    box-shadow: 0 0 20px rgba(14,165,233,0.4), 0 6px 16px rgba(14,165,233,0.2) !important;
     transform: scale(1.06) translateY(-1px) !important;
+}
+
+
+
+/* === Filter Chips === */
+.filter-chip {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid var(--brand-border);
+    color: var(--brand-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.filter-chip:hover {
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+}
+.filter-chip.active {
+    background: var(--brand-accent-soft);
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+}
+
+/* === Stagger Card Entrance === */
+@keyframes cardEnter {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.kpi-card {
+    animation: cardEnter 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+/* Disable on re-render (class toggled by JS) */
+.kpi-card.no-animate {
+    animation: none;
+}
+
+/* === KPI Detail Modal === */
+.kpi-modal-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.kpi-modal-backdrop.open {
+    opacity: 1; pointer-events: auto;
+}
+.kpi-modal-panel {
+    max-width: 640px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    background: var(--brand-card);
+    border: 1px solid var(--brand-border);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    transform: translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.kpi-modal-backdrop.open .kpi-modal-panel {
+    transform: translateY(0);
 }
