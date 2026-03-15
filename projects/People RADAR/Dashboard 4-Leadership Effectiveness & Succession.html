@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard 4: Leadership Effectiveness & Succession</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        .glossy-card { 
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .text-danger { color: #dc2626; }
+        .text-warning { color: #f59e0b; }
+        .text-success { color: #16a34a; }
+
+        /* Tooltip Styles */
+        .info-container {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .info-tooltip {
+            visibility: hidden;
+            width: 380px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -190px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .info-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .info-container:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .info-tooltip-title {
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .info-tooltip-content {
+            font-family: monospace;
+            background-color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            display: block;
+        }
+        .info-tooltip-purpose {
+            font-style: italic;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="p-4 md:p-8">
+        <!-- Dashboard Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Leadership Effectiveness & Succession</h1>
+            <p class="text-slate-600 mt-1">This dashboard provides a comprehensive assessment of our leadership strength, management quality, and the readiness of our future talent pipeline.</p>
+        </header>
+
+        <!-- Filters -->
+        <div class="mb-8 p-4 bg-white rounded-lg border border-slate-200">
+             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+                <div class="col-span-full lg:col-span-1"><h3 class="font-bold text-slate-800 text-lg">Filters</h3></div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Department</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Engineering</option><option>Sales</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Job Level</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Director+</option><option>Manager</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Location</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>New York</option><option>Remote</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-500">Diversity</label>
+                    <select class="w-full mt-1 bg-slate-50 border border-slate-300 rounded-md p-2 text-slate-800"><option>All</option><option>Gender</option><option>Ethnicity</option></select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Key Questions -->
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">Key Questions Answered</h2>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Do we have effective managers who can lead high-performing teams?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Is our leadership pipeline strong enough to support future growth?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Are our leadership ranks as diverse as the workforce they lead?</li>
+                    <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1 font-bold">?</span> Do managers have the right number of direct reports to be effective?</li>
+                </ul>
+            </div>
+
+            <!-- KPIs -->
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Manager Effectiveness <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">A composite score that measures a manager's effectiveness based on team feedback and outcomes. Strong managers are a leading indicator of team engagement and retention.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Weighted avg. of upward feedback & team metrics</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Upward Feedback Surveys, Team Performance Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">76%</p>
+                <p class="text-warning mt-1">Below target of 85%</p>
+            </div>
+            <div class="col-span-12 md:col-span-6 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Executive Bench Strength <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                     <p class="info-tooltip-purpose">Measures business continuity risk by assessing the readiness of internal talent to fill critical executive roles. A low score indicates significant risk.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Exec positions with 'Ready Now' successors / Total Exec positions) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Succession Planning System, Talent Review Data</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-2">25%</p>
+                <p class="text-danger mt-1">High risk for key leadership roles</p>
+            </div>
+
+            <!-- Manager Effectiveness by Dept -->
+            <div class="col-span-12 lg:col-span-7 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Manager Effectiveness by Department</h3>
+                <div class="relative h-80 w-full"><canvas id="managerEffectivenessChart"></canvas></div>
+            </div>
+            
+             <!-- Key Drivers of Manager Effectiveness -->
+            <div class="col-span-12 lg:col-span-5 glossy-card p-6 bg-slate-50">
+                <h2 class="text-xl font-bold text-amber-600 mb-4">Diagnostic: Key Drivers of Effectiveness</h2>
+                <p class="text-sm text-slate-500 mb-4 -mt-1">Factors with the highest correlation to positive manager scores.</p>
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">1.</strong><div><strong>Provides Regular, Actionable Feedback:</strong> This is the top driver, yet 30% of employees report receiving feedback less than once a quarter.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">2.</strong><div><strong>Empowers Team to Make Decisions:</strong> High-scoring managers excel at delegating and trusting their teams.</div></li>
+                    <li class="flex items-start"><strong class="text-amber-600 mr-2">3.</strong><div><strong>Cares About Career Development:</strong> Employees who feel their manager supports their growth are 3x more likely to rate them highly.</div></li>
+                </ul>
+            </div>
+
+            <!-- Succession Planning -->
+            <div class="col-span-12 glossy-card p-6">
+                 <h3 class="text-xl font-bold text-slate-900">Succession Pipeline: Critical Roles <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Assesses the readiness of the internal talent pipeline for critical operational and leadership roles, highlighting potential gaps.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Roles with 'Ready Now' successors / Total Critical Roles) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">Succession Planning System, Talent Review Data</code></div></span>
+                </h3>
+                 <p class="text-sm text-slate-500 mb-4 -mt-1">Bench strength for all Director+ and critical IC roles.</p>
+                 <div class="relative h-80 w-full"><canvas id="successionChart"></canvas></div>
+            </div>
+            
+             <!-- Diversity & Span of Control -->
+            <div class="col-span-12 lg:col-span-8 glossy-card p-6">
+                <h3 class="text-xl font-bold text-slate-900">Diversity in Leadership <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the representation of diverse groups at leadership levels compared to the overall workforce. Gaps can indicate barriers to advancement.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">(Leaders from group / Total Leaders) * 100</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS with Demographic and Job Level Data</code></div></span>
+                </h3>
+                <p class="text-sm text-slate-500 mb-4 -mt-1">Representation of women at different levels.</p>
+                <div class="relative h-64 w-full"><canvas id="diversityChart"></canvas></div>
+            </div>
+            <div class="col-span-12 lg:col-span-4 glossy-card p-6 text-center">
+                <h3 class="text-lg font-semibold text-slate-500">Span of Control <span class="info-container"><span class="text-sky-500 font-bold ml-1">ⓘ</span><div class="info-tooltip">
+                    <p class="info-tooltip-purpose">Measures the average number of direct reports per manager. An imbalance (too high or too low) can impact manager effectiveness and team productivity.</p>
+                    <span class="info-tooltip-title">Formula</span><code class="info-tooltip-content">Total Employees / Total Managers</code>
+                    <span class="info-tooltip-title">Prerequisites</span><code class="info-tooltip-content">HRIS Data with Reporting Structure</code></div></span>
+                </h3>
+                <p class="text-5xl font-bold text-slate-900 mt-4">1 : 7</p>
+                <p class="text-success mt-1">Within healthy range of 1:5 to 1:9</p>
+                <p class="text-sm text-slate-500 mt-4">However, 15% of managers in Sales have a span greater than 1:12, indicating potential burnout risk.</p>
+            </div>
+            
+            <!-- Prescriptive Actions -->
+            <div class="col-span-12 mt-2 glossy-card p-6 bg-sky-50 border-sky-200">
+                <h2 class="text-xl font-bold text-sky-800 mb-4">Prescriptive: Recommended Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-700">
+                    <div><strong class="text-slate-900">Launch Manager Coaching Program:</strong> Develop and roll out a targeted coaching program for managers in Sales and Marketing, focusing on feedback and career development.</div>
+                    <div><strong class="text-slate-900">Accelerate Successor Development:</strong> For the 3 identified successors for the VP of Engineering role, create accelerated development plans and assign executive mentors immediately.</div>
+                     <div><strong class="text-slate-900">Sponsor Women in Leadership Program:</strong> Launch a formal sponsorship program to identify and develop high-potential women at the Manager level for future Director roles.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const chartJSConfig = {
+            plugins: { legend: { display: false, position: 'top', align: 'end', labels: {color: '#475569'} } },
+            scales: {
+                y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+                x: { ticks: { color: '#64748b' }, grid: { display: false } }
+            },
+            maintainAspectRatio: false
+        };
+
+        // Manager Effectiveness Chart
+        new Chart(document.getElementById('managerEffectivenessChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Engineering', 'Product', 'G&A', 'Marketing', 'Sales'],
+                datasets: [{
+                    label: 'Effectiveness Score',
+                    data: [88, 82, 78, 71, 65],
+                    backgroundColor: ['#16a34a', '#16a34a', '#f59e0b', '#dc2626', '#dc2626'],
+                    borderRadius: 4
+                }]
+            },
+            options: { ...chartJSConfig, indexAxis: 'y' }
+        });
+
+        // Succession Chart
+        new Chart(document.getElementById('successionChart'), {
+            type: 'bar',
+            data: {
+                labels: ['VP Engineering', 'VP Sales', 'Dir. Product', 'Dir. Marketing', 'Critical Architect'],
+                datasets: [
+                    { label: 'Ready Now', data: [0, 1, 2, 1, 0], backgroundColor: '#16a34a', borderRadius: 2 },
+                    { label: 'Ready 1-2 Years', data: [3, 1, 4, 2, 5], backgroundColor: '#f59e0b', borderRadius: 2 },
+                    { label: 'Gap', data: [1, 2, 0, 1, 2], backgroundColor: '#ef4444', borderRadius: 2 }
+                ]
+            },
+            options: { ...chartJSConfig, scales: { x: { stacked: true }, y: { stacked: true } }, plugins: { legend: { display: true, position: 'top', align: 'end', labels: {color: '#475569'} } } }
+        });
+
+        // Diversity in Leadership
+        new Chart(document.getElementById('diversityChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Individual Contributor', 'Manager', 'Director', 'Vice President'],
+                datasets: [{
+                    label: 'Women Representation',
+                    data: [48, 41, 31, 22],
+                    backgroundColor: '#0ea5e9',
+                    borderRadius: 4
+                }, {
+                    label: 'Target',
+                    data: [50, 50, 50, 50],
+                    type: 'line',
+                    borderColor: '#f43f5e',
+                    borderDash: [5, 5],
+                    fill: false,
+                    pointRadius: 0
+                }]
+            },
+            options: chartJSConfig
+        });
+    </script>
+</body>
+</html>
